@@ -25,3 +25,4 @@ pnpm-debug.log*
 
 # gstack browse reports
 .gstack/
+design-preview/
