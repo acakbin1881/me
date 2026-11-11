@@ -1,23 +1,46 @@
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/latin-500.css";
 @import "tailwindcss";
 
 /*
- * Design tokens.
- * These are deliberately neutral placeholders. Fonts, colors and the type
- * scale get decided in the design step, then set here once. Components only
- * use these tokens (bg-bg, text-fg, font-display ...), never raw hex values,
- * so the whole look changes from this one block.
+ * Switzer (ITF Free Font License, see fonts/LICENSE-Switzer.txt).
+ * The woff2 is fetched at build time by scripts/fetch-fonts.mjs.
+ */
+@font-face {
+  font-family: "Switzer";
+  src: url("./fonts/Switzer-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+ * Arial tuned to Switzer's metrics so the swap barely moves the layout.
+ * Measured in Chrome at 100px: Switzer is 98.7% of Arial's advance width,
+ * ascent 98 / descent 25 (overrides are relative to the adjusted size).
+ */
+@font-face {
+  font-family: "Switzer Fallback";
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 98.7%;
+  ascent-override: 99.3%;
+  descent-override: 25.3%;
+  line-gap-override: 0%;
+}
+
+/*
+ * Design tokens (spec section 3). Components use these names only:
+ * bg-bg, text-fg, text-muted, border-line, bg-accent, font-sans, font-mono.
  */
 @theme {
-  --font-sans: ui-sans-serif, system-ui, sans-serif;
-  --font-display: ui-serif, Georgia, serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Switzer", "Switzer Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-  --color-bg: #f4f4f2;
-  --color-surface: #ffffff;
-  --color-fg: #141414;
-  --color-muted: #6b6b6b;
-  --color-line: #e2e2df;
-  --color-accent: #141414;
+  --color-bg: #f2f1ee;
+  --color-fg: #0d0d0d;
+  --color-muted: #6e6d69;
+  --color-line: #0d0d0d;
+  --color-accent: #e30613;
 }
 
 @layer base {

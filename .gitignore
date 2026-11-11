@@ -27,3 +27,6 @@ pnpm-debug.log*
 .gstack/
 design-preview/
 .superpowers/
+
+# Switzer is fetched at build time (license forbids redistribution via repo)
+src/styles/fonts/*.woff2

@@ -58,3 +58,32 @@ test('every root-relative URL stays under /me/', () => {
   assert.ok(urls.length > 0);
   for (const u of urls) assert.ok(u.startsWith('/me/'), u);
 });
+
+// --- Design tokens and fonts (Task 3) ---
+import { readdirSync } from 'node:fs';
+
+const cssHref = html.match(/<link rel="stylesheet" href="\/me\/(_astro\/[^"]+\.css)"/)?.[1];
+const css = cssHref ? readFileSync(new URL(`../dist/${cssHref}`, import.meta.url), 'utf8') : '';
+const flat = css.replace(/\s+/g, '');
+
+test('stylesheet is linked', () => {
+  assert.ok(cssHref, 'no stylesheet link in dist/index.html');
+});
+
+test('Switzer is declared with font-display swap', () => {
+  assert.match(flat, /font-family:"?Switzer"?/);
+  assert.match(flat, /font-display:swap/);
+});
+
+test('Swiss red and paper background tokens are in the CSS', () => {
+  assert.ok(flat.toLowerCase().includes('#e30613'));
+  assert.ok(flat.toLowerCase().includes('#f2f1ee'));
+});
+
+test('fonts are self-hosted, no third-party font requests', () => {
+  for (const host of ['fontshare.com', 'googleapis.com']) {
+    assert.ok(!css.includes(host) && !html.includes(host), host);
+  }
+  const files = readdirSync(new URL('../dist/_astro/', import.meta.url));
+  assert.ok(files.some((f) => f.endsWith('.woff2')), 'no woff2 in dist/_astro');
+});
