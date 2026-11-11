@@ -10,10 +10,10 @@ const items = [
 ];
 ---
 
-<nav aria-label="Sections" class="swiss-grid gap-y-1.5 border-b border-line pb-3 font-mono text-xs">
+<nav aria-label="Sections" class="swiss-grid border-b border-line pb-2 font-mono text-xs">
   {
     items.map((item, i) => (
-      <a href={item.href} class:list={['link', i > 0 && 'text-muted']}>
+      <a href={item.href} class:list={['link block py-1', i > 0 && 'text-muted']}>
         {item.n} {item.label}
       </a>
     ))
