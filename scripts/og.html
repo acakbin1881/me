@@ -1,0 +1,65 @@
+<!doctype html>
+<!--
+  Source for public/og.png (link preview, 1200x630).
+  Regenerate: run `npm run build` once (fetches Switzer), open this file in a
+  browser at a 1200x630 viewport with device scale 1, screenshot to public/og.png.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>og</title>
+<style>
+  @font-face {
+    font-family: "Switzer";
+    src: url("../src/styles/fonts/Switzer-Variable.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "IBM Plex Mono";
+    src: url("../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2") format("woff2");
+    font-weight: 500;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: #f2f1ee;
+    color: #0d0d0d;
+    font-family: "Switzer", sans-serif;
+    padding: 56px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    -webkit-font-smoothing: antialiased;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    font: 500 18px/1 "IBM Plex Mono", monospace;
+  }
+  .row span:last-child { text-align: right; }
+  .muted { color: #6e6d69; }
+  .top { padding-bottom: 18px; border-bottom: 2px solid #0d0d0d; }
+  .bottom { padding-top: 18px; border-top: 2px solid #0d0d0d; }
+  h1 {
+    font-weight: 700;
+    font-size: 210px;
+    line-height: 0.84;
+    letter-spacing: -0.055em;
+    text-transform: uppercase;
+  }
+  .square {
+    display: inline-block;
+    width: 0.16em;
+    height: 0.16em;
+    margin-left: 0.04em;
+    background: #e30613;
+  }
+</style>
+</head>
+<body>
+  <div class="row top"><span>01 Index</span><span class="muted">02 Experience</span><span class="muted">03 Education</span><span class="muted">04 Contact</span></div>
+  <h1>Aras<br />Akbin<span class="square"></span></h1>
+  <div class="row bottom"><span style="grid-column: span 2">Stellar Ambassador · Founder, TrustRFQ</span><span class="muted">SF Bay Area</span><span class="muted">acakbin1881.github.io/me</span></div>
+</body>
+</html>

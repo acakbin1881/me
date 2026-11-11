@@ -99,3 +99,15 @@ test('the name has an intro animation defined by @keyframes', () => {
   const nameRule = flat.match(/\.name\{[^}]*\}/)?.[0] ?? '';
   assert.ok(nameRule.includes(kf[1]), `.name does not use ${kf[1]}`);
 });
+
+// --- Link preview image (Task 5) ---
+import { existsSync } from 'node:fs';
+
+test('og.png is a 1200x630 PNG and is referenced absolutely', () => {
+  const file = new URL('../dist/og.png', import.meta.url);
+  assert.ok(existsSync(file), 'dist/og.png missing');
+  const png = readFileSync(file);
+  assert.equal(png.readUInt32BE(16), 1200);
+  assert.equal(png.readUInt32BE(20), 630);
+  assert.ok(html.includes('property="og:image" content="https://acakbin1881.github.io/me/og.png"'));
+});
