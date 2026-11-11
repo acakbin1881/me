@@ -54,14 +54,17 @@ Contrast: `fg` on `bg` and `muted` on `bg` must meet WCAG AA for their sizes. Ch
 | --- | --- | --- |
 | Display (name) | Switzer 700 | `clamp(64px, 19vw, 232px)`, line-height .84, tracking -.055em, uppercase |
 | Body | Switzer 400/500/600 | 15px rows, line-height 1.35 |
-| Labels, dates, nav | IBM Plex Mono 400/500 | 12–13px, uppercase labels with tracking .06em |
+| Section titles | Switzer 600 | 15px, sentence case ("Experience"), with the section number above in Plex Mono 12px muted |
+| Dates, nav, footer | IBM Plex Mono 400/500 | 12–13px, sentence case ("02 Experience"), as in the approved preview (option A) |
 
 - Switzer comes from Fontshare under the ITF Free Font License, which allows commercial
   use. IBM Plex Mono is under the SIL Open Font License.
-- Both are **self-hosted** as woff2 in `public/fonts/` and loaded with `@font-face` and
-  `font-display: swap`. There are no requests to Fontshare or Google at runtime.
-- Only the needed weights are loaded: Switzer 400, 500, 600 and 700, and Plex Mono 400 and 500.
-  Latin subset only.
+- Both are **self-hosted** and loaded with `@font-face` and `font-display: swap`. There are
+  no requests to Fontshare or Google at runtime. Plex Mono comes from `@fontsource`. Switzer's
+  license forbids redistributing it through a repository, so the woff2 is not committed.
+  `scripts/fetch-fonts.mjs` downloads it before each build.
+- Switzer is a single variable file covering 400–700. The license forbids subsetting it.
+  Plex Mono loads 400 and 500 in the Latin subset only.
 - Swap the system fallback metrics as close as possible (`size-adjust`) to limit layout
   shift.
 
@@ -69,7 +72,8 @@ Contrast: `fg` on `bg` and `muted` on `bg` must meet WCAG AA for their sizes. Ch
 
 - Desktop: a 4-column grid with a 16px gap, and 40px side padding from 768px up.
 - Mobile (<640px): a 2-column grid with a 16px side gutter. Columns that only carry
-  secondary text are hidden, and dates move under the label.
+  secondary text are hidden. In each row, the organization/role block spans the full
+  width and the date sits on one line under it.
 - Vertical rhythm is in multiples of 8px. Gaps between sections are 56px.
 - Maximum content width is the viewport minus padding. The name is meant to span the page.
 

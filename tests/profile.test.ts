@@ -1,31 +1,38 @@
+// Invariants of the content file. These must keep passing when Aras edits
+// profile.ts (adds a date, a role, a school or a link), so they check shape,
+// not the exact current content.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { profile } from '../src/data/profile.ts';
 import { formatRange } from '../src/lib/format.ts';
 
-test('experience is newest first and starts with TrustRFQ', () => {
-  assert.deepEqual(profile.experience.map((r) => r.org), [
-    'TrustRFQ',
-    'Upvera',
-    'Stellar Development Foundation',
-    'ODTÜ Blockchain',
-  ]);
-  assert.equal(profile.experience[0].start, undefined);
-  assert.equal(profile.experience[0].end, 'Present');
+const filled = (s: string | undefined) => typeof s === 'string' && s.trim().length > 0;
+
+test('every role has a title, an organization and an end date', () => {
+  assert.ok(profile.experience.length > 0);
+  for (const r of profile.experience) {
+    assert.ok(filled(r.role) && filled(r.org) && filled(r.end), JSON.stringify(r));
+    if (r.start !== undefined) assert.ok(filled(r.start), `empty start on ${r.org}`);
+  }
 });
 
-test('education matches LinkedIn', () => {
-  assert.deepEqual(profile.education.map((e) => e.school), [
-    'De Anza College',
-    'Middle East Technical University (ODTÜ)',
-  ]);
+test('TrustRFQ is listed (spec decision: headline role belongs in Experience)', () => {
+  assert.ok(profile.experience.some((r) => r.org === 'TrustRFQ'));
 });
 
-test('contact links are LinkedIn and GitHub only', () => {
-  assert.deepEqual(profile.links.map((l) => l.href), [
-    'https://www.linkedin.com/in/aras-akbin-36b9842a7/',
-    'https://github.com/acakbin1881',
-  ]);
+test('every education entry is complete', () => {
+  assert.ok(profile.education.length > 0);
+  for (const e of profile.education) {
+    assert.ok(filled(e.program) && filled(e.school) && filled(e.start) && filled(e.end), JSON.stringify(e));
+  }
+});
+
+test('contact links are public https profiles, never email', () => {
+  assert.ok(profile.links.length > 0);
+  for (const l of profile.links) {
+    assert.ok(filled(l.label), JSON.stringify(l));
+    assert.match(l.href, /^https:\/\//);
+  }
 });
 
 test('formatRange joins with an em dash and drops a missing start', () => {
