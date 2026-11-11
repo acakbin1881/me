@@ -87,3 +87,15 @@ test('fonts are self-hosted, no third-party font requests', () => {
   const files = readdirSync(new URL('../dist/_astro/', import.meta.url));
   assert.ok(files.some((f) => f.endsWith('.woff2')), 'no woff2 in dist/_astro');
 });
+
+// --- Layout and motion (Task 4) ---
+test('reduced-motion guard is in the CSS', () => {
+  assert.match(flat, /@media\(prefers-reduced-motion:reduce\)/);
+});
+
+test('the name has an intro animation defined by @keyframes', () => {
+  const kf = flat.match(/@keyframes([\w-]+)\{/);
+  assert.ok(kf, 'no @keyframes');
+  const nameRule = flat.match(/\.name\{[^}]*\}/)?.[0] ?? '';
+  assert.ok(nameRule.includes(kf[1]), `.name does not use ${kf[1]}`);
+});
