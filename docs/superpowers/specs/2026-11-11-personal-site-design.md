@@ -53,7 +53,7 @@ Contrast: `fg` on `bg` and `muted` on `bg` must meet WCAG AA for their sizes. Ch
 | Role | Font | Settings |
 | --- | --- | --- |
 | Display (name) | Switzer 700 | `clamp(64px, 19vw, 232px)`, line-height .84, tracking -.055em, uppercase |
-| Body | Switzer 400/500/600 | 15px rows, 19px about paragraph, line-height 1.35–1.45 |
+| Body | Switzer 400/500/600 | 15px rows, line-height 1.35 |
 | Labels, dates, nav | IBM Plex Mono 400/500 | 12–13px, uppercase labels with tracking .06em |
 
 - Switzer comes from Fontshare under the ITF Free Font License, which allows commercial
@@ -80,14 +80,16 @@ One page at `/me/`. The numbered nav scrolls to sections on the same page.
 1. **Nav row:** `01 Index · 02 Experience · 03 Education · 04 Contact` in mono. A
    rule sits under it.
 2. **Name:** `ARAS / AKBIN` on two lines with the red square after the last letter.
-3. **Meta row:** title, city, a short status line and the year, separated by a rule.
-4. **About:** a mono label in column 1 and a paragraph spanning columns 2–3 (max ~34em).
-5. **Experience:** one row per role. Column 1 holds the section label (first row only),
-   column 2 the company and role, column 3 one short line on what was done, and column 4
-   the date range in mono, right-aligned.
-6. **Education:** the same row pattern.
-7. **Contact:** the same row pattern, holding email, LinkedIn and GitHub links.
-8. **Footer:** a single mono line with the name, the year and a "Back to top" link.
+3. **Meta row:** headline, location and the year, separated by a rule.
+4. **Experience:** one row per role. Column 1 holds the section label (first row only),
+   column 2 the company and role, column 3 one short line where LinkedIn has one (left
+   empty otherwise), and column 4 the date range in mono, right-aligned.
+5. **Education:** the same row pattern.
+6. **Contact:** the same row pattern, holding the LinkedIn and GitHub links.
+7. **Footer:** a single mono line with the name, the year and a "Back to top" link.
+
+There is no About section. It was dropped by decision, so the page carries only facts.
+The nav therefore reads `01 Index · 02 Experience · 03 Education · 04 Contact`.
 
 Each section is an Astro component in `src/components/`, so each one can be read and
 changed on its own.
@@ -95,13 +97,40 @@ changed on its own.
 ## 5. Content model
 
 Content comes from LinkedIn and is written in English. It is kept apart from markup in
-`src/data/profile.ts`, a typed object holding name, title, location, about, experience[],
+`src/data/profile.ts`, a typed object holding name, headline, location, experience[],
 education[] and links[]. Components only render this object, so updating the site later
 means editing one file.
 
-**Pending:** the LinkedIn content itself. Aras will provide it as a "Save to PDF" export
-or as pasted text. Until then, the data file holds clearly marked placeholders and is not
-deployed.
+### v1 content (read from LinkedIn on 2026-11-11)
+
+- **Name:** Aras Akbin
+- **Headline:** Stellar Ambassador · Founder, TrustRFQ
+- **Location:** San Francisco Bay Area
+
+**Experience** (newest first)
+
+| Role | Organization | Line | Dates |
+| --- | --- | --- | --- |
+| Founder | TrustRFQ | (none) | **start date pending** — Present |
+| Global Strategy & Partnerships Advisor | Upvera | (none) | Jul 2026 — Present |
+| Ambassador | Stellar Development Foundation | (none) | Jun 2026 — Present |
+| Blockchain Developer (Freelance) | ODTÜ Blockchain | Blockchain and Web3 | 2025 — 2026 |
+
+TrustRFQ appears in the LinkedIn headline but not in its Experience list. It is added
+here by decision.
+
+**Education**
+
+| Program | School | Dates |
+| --- | --- | --- |
+| Physics | De Anza College | 2026 — Present |
+| English Preparation | Middle East Technical University (ODTÜ) | 2025 — 2026 |
+
+**Contact:** LinkedIn (`linkedin.com/in/aras-akbin-36b9842a7`) and GitHub
+(`github.com/acakbin1881`). No email on the page.
+
+Not used in v1: LinkedIn skills, posts and hackathon projects (Carp, Armo). Projects
+are out of scope (section 8).
 
 ## 6. Interaction and motion
 
