@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens.
+ * These are deliberately neutral placeholders. Fonts, colors and the type
+ * scale get decided in the design step, then set here once. Components only
+ * use these tokens (bg-bg, text-fg, font-display ...), never raw hex values,
+ * so the whole look changes from this one block.
+ */
+@theme {
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+  --font-display: ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-bg: #f4f4f2;
+  --color-surface: #ffffff;
+  --color-fg: #141414;
+  --color-muted: #6b6b6b;
+  --color-line: #e2e2df;
+  --color-accent: #141414;
+}
+
+@layer base {
+  html {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-fg);
+    color: var(--color-bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
