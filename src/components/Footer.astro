@@ -1,0 +1,10 @@
+---
+import { profile } from '../data/profile';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="swiss-grid mt-24 border-t border-line py-4 font-mono text-xs text-muted">
+  <p class="col-span-1 sm:col-span-2">{profile.name} © {year}</p>
+  <a href="#main" class="link text-right sm:col-span-2">Back to top ↑</a>
+</footer>

@@ -1,0 +1,44 @@
+---
+export interface Row {
+  primary: string;
+  secondary?: string;
+  line?: string;
+  date?: string;
+  /** External link for `primary` (rendered with rel="me"). */
+  href?: string;
+}
+
+interface Props {
+  id: string;
+  number: string;
+  title: string;
+  rows: Row[];
+}
+
+const { id, number, title, rows } = Astro.props;
+---
+
+<section id={id} aria-labelledby={`${id}-title`} class="swiss-grid scroll-mt-6 border-t border-line">
+  <div class="col-span-full py-3.5 sm:col-span-1">
+    <span class="block font-mono text-xs text-muted">{number}</span>
+    <h2 id={`${id}-title`} class="text-[15px] font-semibold">{title}</h2>
+  </div>
+  <ul class="col-span-full grid grid-cols-subgrid sm:col-span-3 sm:col-start-2">
+    {
+      rows.map((row, i) => (
+        <li class:list={['col-span-full grid grid-cols-subgrid py-3.5 text-[15px] leading-[1.35]', i > 0 && 'border-t border-line']}>
+          <div>
+            {row.href ? (
+              <a href={row.href} rel="me" class="link">{row.primary}</a>
+            ) : (
+              <span>{row.primary}</span>
+            )}
+            {row.secondary && <span class="block text-muted">{row.secondary}</span>}
+          </div>
+          <p class="text-muted max-sm:hidden">{row.line}</p>
+          {row.date && <p class="text-right font-mono text-[13px] text-muted">{row.date}</p>}
+        </li>
+      ))
+    }
+  </ul>
+</section>

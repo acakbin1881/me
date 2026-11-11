@@ -1,28 +1,23 @@
 ---
 import '../styles/global.css';
 import { url } from '../lib/url';
+import { profile } from '../data/profile';
 
 interface Props {
   title?: string;
   description?: string;
   /** Path under /public, e.g. "/og.png" (1200x630). */
   image?: string;
-  lang?: string;
 }
 
-const {
-  title = 'TODO: Ad Soyad',
-  description = 'TODO: one-sentence description shown in search results and link previews.',
-  image = '/og.png',
-  lang = 'tr',
-} = Astro.props;
+const { title = profile.name, description = profile.description, image = '/og.png' } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(url(image), Astro.site);
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,9 +42,9 @@ const ogImage = new URL(url(image), Astro.site);
   <body class="min-h-dvh">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-surface focus:px-3 focus:py-2"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-bg focus:px-3 focus:py-2"
     >
-      İçeriğe geç
+      Skip to content
     </a>
     <main id="main">
       <slot />

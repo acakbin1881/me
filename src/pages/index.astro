@@ -1,13 +1,41 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import RowSection, { type Row } from '../components/RowSection.astro';
+import Footer from '../components/Footer.astro';
+import { profile } from '../data/profile';
+import { formatRange } from '../lib/format';
+
+const experience: Row[] = profile.experience.map((r) => ({
+  primary: r.org,
+  secondary: r.role,
+  line: r.line,
+  date: formatRange(r.start, r.end),
+}));
+
+const education: Row[] = profile.education.map((e) => ({
+  primary: e.school,
+  secondary: e.program,
+  date: formatRange(e.start, e.end),
+}));
+
+const contact: Row[] = profile.links.map((l) => ({
+  primary: l.label,
+  secondary: l.href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''),
+  href: l.href,
+}));
 ---
 
 <Layout>
-  <section class="mx-auto max-w-3xl px-4 py-24 sm:px-6">
-    <p class="font-mono text-xs tracking-widest text-muted uppercase">00 / iskelet</p>
-    <h1 class="mt-4 font-display text-5xl leading-none sm:text-6xl">Yapım aşamasında.</h1>
-    <p class="mt-6 max-w-prose text-muted">
-      Teknik altyapı hazır. Tasarım kararları ve içerik bu sayfanın yerini alacak.
-    </p>
-  </section>
+  <div class="page">
+    <Nav />
+    <Hero />
+    <div class="mt-14">
+      <RowSection id="experience" number="02" title="Experience" rows={experience} />
+      <RowSection id="education" number="03" title="Education" rows={education} />
+      <RowSection id="contact" number="04" title="Contact" rows={contact} />
+    </div>
+    <Footer />
+  </div>
 </Layout>

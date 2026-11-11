@@ -1,0 +1,21 @@
+---
+import { url } from '../lib/url';
+
+const home = url('/');
+const items = [
+  { n: '01', label: 'Index', href: home },
+  { n: '02', label: 'Experience', href: `${home}#experience` },
+  { n: '03', label: 'Education', href: `${home}#education` },
+  { n: '04', label: 'Contact', href: `${home}#contact` },
+];
+---
+
+<nav aria-label="Sections" class="swiss-grid border-b border-line pb-3 font-mono text-xs">
+  {
+    items.map((item, i) => (
+      <a href={item.href} class:list={['link', i > 0 && 'text-muted', i > 1 && 'max-sm:hidden']}>
+        {item.n} {item.label}
+      </a>
+    ))
+  }
+</nav>

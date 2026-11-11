@@ -1,0 +1,17 @@
+---
+import { profile } from '../data/profile';
+
+const [first, ...rest] = profile.name.split(' ');
+const year = new Date().getFullYear();
+---
+
+<header>
+  <h1 class="name">
+    {first}<br />{rest.join(' ')}<span class="square" aria-hidden="true"></span>
+  </h1>
+  <div class="swiss-grid border-t border-line py-3 text-[15px]">
+    <p class="col-span-2 sm:col-span-1">{profile.headline}</p>
+    <p class="text-muted">{profile.location}</p>
+    <p class="text-right font-mono text-[13px] text-muted max-sm:hidden sm:col-start-4">{year}</p>
+  </div>
+</header>
