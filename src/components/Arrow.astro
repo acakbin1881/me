@@ -1,0 +1,16 @@
+---
+/**
+ * A square-cut arrow drawn to match the typeface (Switzer has no arrows).
+ * It scales with the text around it; --arrow-weight sets the stroke.
+ */
+interface Props {
+  /** ne = up right (leaves the site), se = down right, nw = up left. */
+  dir?: 'ne' | 'se' | 'nw';
+}
+
+const { dir = 'ne' } = Astro.props;
+---
+
+<svg class:list={['arrow', `arrow-${dir}`]} viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M6 4.5h13.5V18M19.5 4.5 4.5 19.5"></path>
+</svg>

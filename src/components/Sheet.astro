@@ -1,0 +1,87 @@
+---
+/**
+ * NOT IN USE. The earlier two-sided homepage (work on paper, life on red),
+ * kept for reference; the live homepage is Home.astro.
+ *
+ * One sheet, two sides.
+ *   Front (.side-a): work, black type on white.
+ *   Back  (.side-b): life, photos on Swiss red.
+ * The .turn block between them is the page turning over from its bottom right
+ * corner while you scroll (see "The turn" in global.css).
+ */
+import Layout from '../layouts/Layout.astro';
+import Masthead from '../components/Masthead.astro';
+import Stair from '../components/Stair.astro';
+import Record from '../components/Record.astro';
+import Corner from '../components/Corner.astro';
+import Chapter from '../components/Chapter.astro';
+import Arrow from '../components/Arrow.astro';
+import { profile } from '../data/profile';
+
+const year = new Date().getFullYear();
+---
+
+<Layout>
+  <div class="side side-a">
+    <Masthead />
+    <section class="hero wrap" aria-labelledby="statement">
+      <div class="hero-inner">
+        <Stair as="h1" id="statement" name={profile.name} lines={profile.work} class="is-intro" />
+        <div class="hero-foot">
+          <p>Based in the {profile.location}.</p>
+          <ul class="hero-links">
+            {
+              profile.links.map((link) => (
+                <li>
+                  <a href={link.href} rel="me" class="hl is-underlined">
+                    {link.label} <Arrow />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+    <Record />
+    <Corner to="life" />
+  </div>
+
+  <div class="side side-b">
+    <section class="turn" aria-labelledby="life-title">
+      <span id="life" class="turn-anchor"></span>
+      <div class="turn-sheet">
+        <div class="sheet-inner wrap">
+          <p class="sheet-top"><span>Life</span><span>{profile.name}</span></p>
+          <Stair as="h2" id="life-title" name={profile.name} lines={profile.life} mirror />
+        </div>
+      </div>
+    </section>
+
+    <div class="back">
+      <div class="wrap">
+        {profile.chapters.map((chapter, i) => <Chapter chapter={chapter} index={i} />)}
+
+        <section id="contact" class="contact" aria-labelledby="contact-title">
+          <h2 id="contact-title" class="contact-title">Contact</h2>
+          <ul class="contact-links">
+            {
+              profile.links.map((link, i) => (
+                <li style={`--i:${i}`}>
+                  <a href={link.href} rel="me" class="contact-link">
+                    {link.label} <Arrow />
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <footer class="footer">
+          <p>{profile.name} © {year}</p>
+        </footer>
+      </div>
+      <Corner to="work" />
+    </div>
+  </div>
+</Layout>

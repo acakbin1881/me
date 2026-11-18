@@ -1,0 +1,891 @@
+---
+/**
+ * The homepage, read top to bottom.
+ * Content: src/data/draft.ts and src/data/profile.ts (career, life).
+ *
+ * `notes` turns on the working layer for Aras: status tags, Turkish remarks
+ * and rows still waiting on him. The live homepage renders with notes off;
+ * /draft (dev only) renders with them on.
+ */
+import Layout from '../layouts/Layout.astro';
+import DraftTag from '../components/DraftTag.astro';
+import Arrow from '../components/Arrow.astro';
+import { url } from '../lib/url';
+import { Image } from 'astro:assets';
+import { photo } from '../lib/photos';
+import { profile } from '../data/profile';
+import { draft } from '../data/draft';
+
+interface Props {
+  notes?: boolean;
+}
+
+const { notes = false } = Astro.props;
+
+const sections = [
+  { id: 'about', label: 'About' },
+  { id: 'trustrfq', label: 'TrustRFQ' },
+  { id: 'carp', label: 'CARP' },
+  { id: 'receipts', label: 'Receipts' },
+  { id: 'built', label: 'Also built' },
+  { id: 'record', label: 'Record' },
+];
+
+/** Rows still waiting on Aras stay on the draft only. */
+const receipts = draft.receipts.items.filter((r) => notes || r.status !== 'needed');
+
+/** What a screen reader says after each box, since it cannot see the color. */
+const heard = { build: 'build with', learn: 'learning', life: 'built me' } as const;
+
+/** The boxes beside About, grouped in the order of the color key: black, white, red. */
+const grouped = draft.stack.legend.flatMap((entry) => draft.stack.items.filter((item) => item.kind === entry.kind));
+
+const records = [
+  {
+    title: 'Experience',
+    rows: profile.experience.map((r) => ({ since: r.start, until: r.end, who: r.org, href: r.href, what: r.role, extra: r.line })),
+  },
+  {
+    title: 'Education',
+    rows: [
+      { since: undefined, until: draft.record.next.when, who: draft.record.next.who, what: draft.record.next.what, status: draft.record.nextStatus },
+      { since: undefined, until: 'Present', who: draft.record.bootcamp.who, href: draft.record.bootcamp.href, what: draft.record.bootcamp.what, status: draft.record.nextStatus },
+      ...profile.education.map((e) => ({ since: e.start, until: e.end, who: e.school, what: e.program })),
+    ],
+  },
+];
+---
+
+<Layout title={notes ? `Draft · ${profile.name}` : profile.name}>
+  {notes && <meta slot="head" name="robots" content="noindex, nofollow" />}
+
+  <div class="draft">
+    {
+      notes && (
+        <aside class="legend" aria-label="Taslak açıklaması">
+          <p>
+            <strong>Taslak.</strong> Yalnızca içerik ve sıra; tasarım kararı yok.
+          </p>
+          <ul>
+            <li><DraftTag status="fact" /> kaynağı var</li>
+            <li><DraftTag status="proposal" /> ben yazdım, onayını bekliyor</li>
+            <li><DraftTag status="needed" /> senden gerekli</li>
+          </ul>
+        </aside>
+      )
+    }
+
+    <div class="toc-dock">
+      <nav class="toc" aria-label="Sections">
+        <a href="#top" class="toc-name">{profile.name}</a>
+        <ul class="toc-links">
+          {sections.map((s) => <li><a href={`#${s.id}`}>{s.label}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+
+    <header id="top" class="intro">
+      <div class="feature is-hero">
+        <div>
+          <h1>
+            <span class="h1-name">{profile.name}</span>
+            {draft.hero.lines.map((line) => <>{' '}<span class="h1-line">{line}</span></>)}
+          </h1>
+          <p class="roles">{draft.hero.roles.join(' · ')}</p>
+          <ul class="links">
+            {
+              profile.links.map((link) => (
+                <li>
+                  <a href={link.href} target="_blank" rel="me noopener">
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <figure class="demo portrait">
+          <Image
+            src={photo(draft.hero.photo.file)}
+            alt={draft.hero.photo.alt}
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 1100px) 480px, 100vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <figcaption>{draft.hero.photo.caption}</figcaption>
+        </figure>
+      </div>
+
+      {
+        notes && (
+          <p class="note">
+            <DraftTag status={draft.hero.status} />
+            {draft.hero.note}
+          </p>
+        )
+      }
+    </header>
+
+    <section id="about" aria-labelledby="about-title">
+      <div class="feature is-about">
+        <div>
+          <h2 id="about-title">{draft.about.title} {notes && <DraftTag status={draft.about.status} />}</h2>
+          <div class="prose">
+            {draft.about.paragraphs.map((p) => <p>{p}</p>)}
+          </div>
+        </div>
+
+        <aside class="stack" aria-labelledby="stack-title">
+          <h3 id="stack-title">{draft.stack.title} {notes && <DraftTag status={draft.stack.status} />}</h3>
+          <ul class="key">
+            {
+              draft.stack.legend.map((entry) => (
+                <li>
+                  <span class:list={['swatch', `is-${entry.kind}`]} aria-hidden="true"></span>
+                  <strong>{entry.color}</strong> {entry.text}
+                </li>
+              ))
+            }
+          </ul>
+          <ul class="chips">
+            {
+              grouped.map((item) => (
+                <li class:list={['chip', `is-${item.kind}`]}>
+                  {item.name}
+                  <span class="sr-only"> ({heard[item.kind]})</span>
+                </li>
+              ))
+            }
+          </ul>
+        </aside>
+      </div>
+      {notes && <p class="note">{draft.about.note}</p>}
+      {notes && <p class="note">{draft.stack.note}</p>}
+      {notes && <p class="note">Başlık için diğer seçenekler: {draft.stack.titleAlternatives.map((t) => `“${t}”`).join(' · ')}</p>}
+    </section>
+
+    <section id="trustrfq" aria-labelledby="trustrfq-title">
+      <div class="feature">
+        <div>
+          <p class="kicker">{draft.flagship.kicker} {notes && <DraftTag status={draft.flagship.kickerStatus} />}</p>
+          <h2 id="trustrfq-title">{draft.flagship.name}</h2>
+          <p class="lede">{draft.flagship.line}</p>
+
+          <p class="prose">
+            <strong>{draft.flagship.lead}</strong>
+            {' '}{draft.flagship.body}
+            {' '}{notes && <DraftTag status={draft.flagship.bodyStatus} />}
+          </p>
+          <p class="meta">{draft.flagship.built} {draft.flagship.standing}</p>
+
+          <div class="backing">
+            <p class="grant">
+              <span class="grant-value">{draft.flagship.grant.value}</span>
+              <span class="grant-label" title={draft.flagship.grant.by}>{draft.flagship.grant.label}</span>
+            </p>
+            <ul class="buttons">
+              {
+                draft.flagship.links.map((link) => (
+                  <li>
+                    <a href={link.href} target="_blank" rel="noopener" class:list={['button', { 'is-primary': link.primary }]}>
+                      {link.label} <Arrow />
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+
+        <figure class="demo">
+          <video
+            src={`${url(draft.flagship.demo.src)}#t=0.1`}
+            aria-label={draft.flagship.demo.label}
+            data-autoplay
+            muted
+            loop
+            playsinline
+            disablepictureinpicture
+            disableremoteplayback
+            preload="metadata"
+            tabindex="-1"
+          ></video>
+          <figcaption>
+            {draft.flagship.demo.caption} {notes && <DraftTag status={draft.flagship.demo.status} />}
+          </figcaption>
+        </figure>
+      </div>
+
+      {notes && <p class="note">{draft.flagship.demo.note}</p>}
+      {notes && <p class="note">{draft.flagship.kickerNote}</p>}
+      {notes && <p class="note">{draft.flagship.bodyNote}</p>}
+      {notes && <p class="note">{draft.flagship.grantNote}</p>}
+      {notes && <p class="note">{draft.flagship.note}</p>}
+    </section>
+
+    <section id="carp" aria-labelledby="carp-title">
+      <div class="feature">
+        <div>
+          <p class="kicker">{draft.carp.kicker}</p>
+          <h2 id="carp-title">{draft.carp.name}</h2>
+          <p class="lede">{draft.carp.line} {notes && <DraftTag status={draft.carp.lineStatus} />}</p>
+
+          <p class="prose">
+            <strong>{draft.carp.lead}</strong>
+            {' '}{draft.carp.body}
+            {' '}{notes && <DraftTag status={draft.carp.bodyStatus} />}
+          </p>
+          <p class="meta">{draft.carp.built}</p>
+
+          <div class="backing">
+            <ul class="buttons is-three">
+              {
+                draft.carp.links.map((link) => (
+                  <li>
+                    <a href={link.href} target="_blank" rel="noopener" class:list={['button', { 'is-primary': link.primary }]}>
+                      {link.label} <Arrow />
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+
+        <figure class="demo">
+          <Image
+            src={photo(draft.carp.photo.file)}
+            alt={draft.carp.photo.alt}
+            widths={[480, 800, 1126]}
+            sizes="(min-width: 1100px) 620px, 100vw"
+            loading="lazy"
+          />
+          <figcaption>
+            {draft.carp.photo.caption} <a href={draft.carp.photo.href} target="_blank" rel="noopener">LinkedIn post</a>{' '}
+            {notes && <DraftTag status="fact" />}
+          </figcaption>
+        </figure>
+      </div>
+
+      {notes && <p class="note">{draft.carp.note}</p>}
+    </section>
+
+    <section id="receipts" aria-labelledby="receipts-title">
+      <h2 id="receipts-title">{draft.receipts.title}</h2>
+      <p class="lede">{draft.receipts.line}</p>
+      <ol class="rows">
+        {
+          receipts.map((r) => (
+            <li>
+              <p class="when">{r.date}</p>
+              <div>
+                <p>
+                  {r.text} {r.href && <a href={r.href} target="_blank" rel="noopener">Transaction</a>} {notes && <DraftTag status={r.status} />}
+                </p>
+                {notes && r.note && <p class="note">{r.note}</p>}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section id="built" aria-labelledby="built-title">
+      <h2 id="built-title">{draft.projects.title}</h2>
+      <ul class="projects">
+        {
+          draft.projects.items.map((p) => (
+            <li>
+              <h3>
+                {p.name} {notes && <DraftTag status={p.status} />}
+              </h3>
+              <p class="lede">{p.line}</p>
+              <p>{p.body}</p>
+              <p class="meta">
+                {p.when} · {p.tags.join(', ')}
+              </p>
+              {p.links.length > 0 && (
+                <ul class="links">
+                  {p.links.map((link) => (
+                    <li>
+                      <a href={link.href} target="_blank" rel="noopener">{link.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {notes && p.note && <p class="note">{p.note}</p>}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="record" aria-labelledby="record-title">
+      <h2 id="record-title">Record {notes && <DraftTag status="fact" />}</h2>
+      {
+        records.map((group) => (
+          <>
+            <h3 class="sub">{group.title}</h3>
+            <ol class="rows">
+              {group.rows.map((row) => (
+                <li>
+                  <p class="when">
+                    {row.since ? `${row.since} to ` : ''}
+                    {row.until === 'Present' ? 'Now' : row.until}
+                  </p>
+                  <div>
+                    <p>
+                      <strong>{'href' in row && row.href ? <a href={row.href} target="_blank" rel="noopener">{row.who}</a> : row.who}</strong>
+                      {'status' in row && row.status && <> {notes && <DraftTag status={row.status} />}</>}
+                    </p>
+                    <p>{row.what}</p>
+                    {'extra' in row && row.extra && <p class="meta">{row.extra}</p>}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </>
+        ))
+      }
+      {notes && <p class="note">{draft.record.note}</p>}
+    </section>
+  </div>
+</Layout>
+
+<style>
+  /* Only what the draft needs to be readable: one column, plain type, hairlines. */
+  .draft {
+    --line: color-mix(in srgb, var(--color-ink) 16%, transparent);
+    max-width: 880px;
+    margin-inline: auto;
+    padding: 0 20px 120px;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+  }
+  a:hover {
+    color: var(--color-flag);
+  }
+
+  /* What the tags mean. */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    padding-block: 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+  .legend strong {
+    color: var(--color-ink);
+  }
+  .legend ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+  }
+
+  /*
+   * Section links. At the top of the page they are a plain row across the
+   * column. Once you scroll, the row slowly gathers into a floating glass bar
+   * in the middle of the screen: it narrows to the width of its words (set by
+   * the script as --pill), drops a little, rounds off and frosts what passes
+   * under it. Only the bar takes clicks; the strip around it lets them through.
+   */
+  .toc-dock {
+    --ease-glass: cubic-bezier(0.32, 0.72, 0, 1);
+    --glass-fill: color-mix(in srgb, var(--color-paper) 58%, transparent);
+    --glass-edge: rgb(255 255 255 / 0.6);
+    --glass-shine: rgb(255 255 255 / 0.7);
+    --glass-shadow: rgb(20 20 18 / 0.16);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    pointer-events: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    .toc-dock {
+      --glass-fill: color-mix(in srgb, var(--color-paper) 52%, transparent);
+      --glass-edge: rgb(255 255 255 / 0.14);
+      --glass-shine: rgb(255 255 255 / 0.12);
+      --glass-shadow: rgb(0 0 0 / 0.55);
+    }
+  }
+  .toc {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    width: 100%;
+    margin-inline: auto;
+    padding: 12px 0;
+    border: 1px solid transparent;
+    border-bottom-color: var(--line);
+    border-radius: 0;
+    background: transparent;
+    font-size: 14px;
+    pointer-events: auto;
+    transition:
+      width 900ms var(--ease-glass),
+      padding 900ms var(--ease-glass),
+      transform 900ms var(--ease-glass),
+      border-radius 900ms var(--ease-glass),
+      border-color 700ms ease,
+      background-color 700ms ease,
+      box-shadow 900ms ease,
+      backdrop-filter 900ms ease,
+      -webkit-backdrop-filter 900ms ease;
+  }
+  .toc.is-floating {
+    width: var(--pill, 100%);
+    padding: 10px 22px;
+    transform: translateY(12px);
+    border-color: var(--glass-edge);
+    border-radius: 24px;
+    background-color: var(--glass-fill);
+    box-shadow:
+      0 12px 32px -12px var(--glass-shadow),
+      0 1px 2px rgb(0 0 0 / 0.05),
+      inset 0 1px 0 var(--glass-shine),
+      inset 0 -1px 0 rgb(0 0 0 / 0.04);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    backdrop-filter: blur(20px) saturate(1.8);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .toc.is-floating {
+      background-color: color-mix(in srgb, var(--color-paper) 94%, transparent);
+    }
+  }
+  /* One line at every width; on a phone the links slide sideways instead of wrapping. */
+  .toc-links {
+    display: flex;
+    gap: 18px;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    white-space: nowrap;
+  }
+  .toc-links::-webkit-scrollbar {
+    display: none;
+  }
+  /* On a phone the row runs past the edge; fade it there so it reads as more. */
+  @media (max-width: 719px) {
+    .toc-links {
+      -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+      mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+    }
+  }
+  .toc a {
+    display: block;
+    padding-block: 2px;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+  .toc-name {
+    flex: none;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .intro {
+    padding-block: 72px;
+    scroll-margin-top: 0;
+  }
+  section {
+    padding-block: 72px;
+    border-top: 1px solid var(--line);
+    /* Clear the floating nav when a link jumps here. */
+    scroll-margin-top: 84px;
+  }
+
+  /* The name is the largest thing on the page; the two lines under it step down. */
+  h1 {
+    margin-block: 0 28px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+  .h1-name,
+  .h1-line {
+    display: block;
+    text-wrap: balance;
+  }
+  .h1-name {
+    margin-bottom: 0.16em;
+    font-size: clamp(52px, 9.5vw, 112px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+  .h1-line {
+    font-size: clamp(28px, 4.6vw, 52px);
+    line-height: 1.08;
+  }
+  h2 {
+    margin-bottom: 24px;
+    font-size: clamp(28px, 4.4vw, 44px);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .sub {
+    margin-block: 36px 10px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .kicker {
+    font-weight: 600;
+  }
+  .lede {
+    margin-bottom: 16px;
+    font-size: 21px;
+    line-height: 1.35;
+  }
+  .roles {
+    font-size: 19px;
+  }
+  .meta {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--color-muted);
+  }
+  .prose {
+    max-width: 62ch;
+  }
+  .prose p + p {
+    margin-top: 14px;
+  }
+
+  /* A remark for Aras. Never part of the real page. */
+  .note {
+    max-width: 68ch;
+    margin-top: 16px;
+    padding-left: 12px;
+    border-left: 2px solid var(--color-flag);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-muted);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    margin-top: 18px;
+  }
+
+  /*
+   * The highlighted project: text on the left, the desk recording on the right.
+   * On wide screens this one block breaks out of the 880px reading column,
+   * like the reference, so the video gets room. Narrower, the video goes under.
+   */
+  .feature {
+    display: grid;
+    gap: 32px 56px;
+    align-items: center;
+  }
+  .demo video,
+  .demo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--color-ink);
+    background: var(--color-ink);
+  }
+  /* The recording is 1920x1080; reserve its shape before it loads. */
+  .demo video {
+    aspect-ratio: 16 / 9;
+  }
+  /*
+   * The recording is something to watch, not to use: no controls, and the
+   * pointer passes straight through it, so hovering changes nothing.
+   */
+  .demo video {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .demo video::-webkit-media-controls,
+  .demo video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+  }
+  /* The portrait in the hero: 4:5, cropped from the 3:4 phone photo, never taller than the screen. */
+  .demo.portrait img {
+    aspect-ratio: 4 / 5;
+    max-height: min(640px, 80vh);
+    object-fit: cover;
+    object-position: 50% 45%;
+  }
+  /* The ETH Oxford photo is nearly square; keep it from towering over the text. */
+  .demo img {
+    max-height: 560px;
+    object-fit: cover;
+    background: transparent;
+  }
+  /*
+   * "Full stack": the tools and the pursuits in one wall of boxes.
+   * Black outline = a tool, solid red = the person (the site's red).
+   */
+  .stack h3 {
+    margin-bottom: 6px;
+  }
+  /* The key: three short lines, large enough to read before the boxes. */
+  .key {
+    display: grid;
+    gap: 6px;
+    margin-bottom: 24px;
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  .key li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .swatch {
+    flex: none;
+    width: 18px;
+    height: 18px;
+  }
+  /* The boxes: one tidy wrapped list, grouped by color in the key's order. */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  /*
+   * The colors are fixed, not the page's ink and paper, because here the color
+   * is the meaning: black stays black and white stays white in dark mode too.
+   * Every box keeps a border in the page's ink so it stands out on either paper.
+   */
+  .chip,
+  .swatch {
+    border: 1px solid var(--color-ink);
+  }
+  .chip {
+    padding: 7px 12px;
+    font-size: 14px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .is-build {
+    background: #0c0c0b;
+    color: #ffffff;
+  }
+  .is-learn {
+    background: #ffffff;
+    color: #0c0c0b;
+  }
+  .is-life {
+    border-color: var(--color-flag);
+    background: var(--color-flag);
+    color: var(--color-on-flag);
+  }
+  .chip.is-life,
+  .chip.is-build {
+    font-weight: 600;
+  }
+
+  .demo figcaption {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--color-muted);
+  }
+  @media (min-width: 1100px) {
+    .feature {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      margin-inline: calc(50% - min(620px, 50vw - 40px));
+    }
+    .feature.is-about {
+      align-items: start;
+    }
+    .stack {
+      padding-top: 12px;
+    }
+    .feature.is-hero {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    }
+  }
+
+  /* The highlighted project: funding and the two ways in, three equal boxes in one row. */
+  .backing {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    max-width: 520px;
+    margin-top: 28px;
+  }
+  .grant {
+    display: grid;
+    align-content: center;
+    gap: 8px;
+    padding: 14px 12px;
+    border: 1px solid var(--color-ink);
+  }
+  .grant-value {
+    font-size: clamp(26px, 4.2vw, 36px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .grant-label {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .buttons {
+    display: grid;
+    grid-column: span 2;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .buttons li {
+    display: flex;
+  }
+  .buttons.is-three {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .button {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 56px;
+    padding-inline: 8px;
+    border: 1px solid var(--color-ink);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color 160ms ease-out,
+      color 160ms ease-out;
+  }
+  .button.is-primary {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .button:hover,
+  .button:focus-visible {
+    border-color: var(--color-flag);
+    background: var(--color-flag);
+    color: var(--color-on-flag);
+  }
+  .button:hover :global(.arrow) {
+    translate: 2px -2px;
+  }
+
+  .rows li {
+    display: grid;
+    gap: 2px 24px;
+    padding-block: 12px;
+    border-top: 1px solid var(--line);
+  }
+  .when {
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .projects {
+    display: grid;
+    gap: 40px;
+  }
+  .projects > li {
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .projects h3 {
+    margin-bottom: 6px;
+  }
+
+  /* Three buttons on a phone: smaller text, and a label may wrap rather than overflow. */
+  @media (max-width: 479px) {
+    .button {
+      font-size: 15px;
+      white-space: normal;
+      text-align: center;
+    }
+  }
+  @media (min-width: 720px) {
+    .rows li {
+      grid-template-columns: 11rem 1fr;
+    }
+  }
+</style>
+
+<script>
+  /*
+   * The demo plays by itself, muted and on a loop, but only while it is on
+   * screen, so the 12.7 MB file does not download for someone who never
+   * scrolls to it. It has no controls; visitors who ask for reduced motion
+   * see its first frame instead.
+   */
+  const videos = document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]');
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (!calm.matches && 'IntersectionObserver' in window) {
+    const watch = new IntersectionObserver(
+      (entries) => {
+        for (const { target, isIntersecting } of entries) {
+          const video = target as HTMLVideoElement;
+          if (isIntersecting) video.play().catch(() => {});
+          else video.pause();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    videos.forEach((video) => watch.observe(video));
+  }
+
+  /*
+   * The nav: a plain row at the top, a floating glass bar once you scroll.
+   * --pill is the bar's width when floating: its words plus padding, never
+   * wider than the column. Measured, so the width can ease from the full row.
+   */
+  const toc = document.querySelector<HTMLElement>('.toc');
+  const dock = document.querySelector<HTMLElement>('.toc-dock');
+  const name = toc?.querySelector<HTMLElement>('.toc-name');
+  const links = toc?.querySelector<HTMLElement>('.toc-links');
+
+  if (toc && dock && name && links) {
+    const measure = () => {
+      const gap = parseFloat(getComputedStyle(toc).columnGap) || 0;
+      const words = name.offsetWidth + gap + links.scrollWidth;
+      // 22px padding each side and the 1px border.
+      toc.style.setProperty('--pill', `${Math.min(words + 46, dock.clientWidth)}px`);
+    };
+    const update = () => toc.classList.toggle('is-floating', window.scrollY > 8);
+
+    measure();
+    update();
+    document.fonts?.ready.then(measure);
+    window.addEventListener('resize', measure, { passive: true });
+    window.addEventListener('scroll', update, { passive: true });
+
+    // The name always goes back to the very top, and leaves no #top behind.
+    name.addEventListener('click', (event) => {
+      event.preventDefault();
+      history.replaceState(null, '', location.pathname + location.search);
+      window.scrollTo({ top: 0, behavior: calm.matches ? 'auto' : 'smooth' });
+    });
+  }
+</script>

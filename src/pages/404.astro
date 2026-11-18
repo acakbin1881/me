@@ -1,15 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Nav from '../components/Nav.astro';
+import Masthead from '../components/Masthead.astro';
+import Stair from '../components/Stair.astro';
 import { url } from '../lib/url';
 ---
 
-<Layout title="Not found — Aras Akbin">
-  <div class="page">
-    <Nav />
-    <h1 class="name">404<span class="square" aria-hidden="true"></span></h1>
-    <p class="border-t border-line py-3 text-[15px]">
-      Nothing here. <a href={url('/')} class="link">Back to the index</a>
-    </p>
+<Layout title="Not found - Aras Akbin">
+  <div class="side side-a">
+    <Masthead />
+    <section class="hero wrap">
+      <div class="hero-inner">
+        <Stair as="h1" name="This page" lines={['is on neither', 'side of', 'the sheet.']} class="is-intro" />
+        <div class="hero-foot">
+          <p><a href={url('/')} class="hl is-underlined">Back to the front</a></p>
+        </div>
+      </div>
+    </section>
   </div>
 </Layout>

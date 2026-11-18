@@ -1,0 +1,32 @@
+---
+/**
+ * The statement, set as a staircase: the name, then one clause per line, each
+ * line one step further in. On the back of the sheet it is mirrored, the way
+ * print shows through paper.
+ */
+interface Props {
+  /** Heading level: the front statement is the page's h1. */
+  as: 'h1' | 'h2';
+  name: string;
+  lines: string[];
+  mirror?: boolean;
+  id?: string;
+  class?: string;
+}
+
+const { as: Tag, name, lines, mirror = false, id, class: className } = Astro.props;
+---
+
+<Tag id={id} class:list={['stair', mirror && 'is-mirror', className]}>
+  <span class="stair-line stair-name" style="--i:0">{name}</span>
+  {
+    lines.map((line, i) => (
+      <>
+        {' '}
+        <span class="stair-line" style={`--i:${i + 1}`}>
+          {line}
+        </span>
+      </>
+    ))
+  }
+</Tag>

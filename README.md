@@ -3,7 +3,19 @@
 Astro + Tailwind v4, GitHub Pages'e GitHub Actions ile yayınlanır:
 **https://acakbin1881.github.io/me/**
 
-Tasarım kararları: `docs/superpowers/specs/2026-11-11-personal-site-design.md`
+## Tasarım fikri
+
+Sayfa tek bir kâğıt yaprağı gibi kurulu, iki yüzü var:
+
+- **Ön yüz (beyaz): iş.** Sadece tipografi. Merdiven gibi dizilmiş cümle, Experience ve Education.
+- **Arka yüz (İsviçre bayrak kırmızısı): hayat.** Her fiil (Trains, Cooks, Speaks...) bir bölüm, fotoğraflar kırmızı kâğıda
+  siyah baskı gibi durur; üzerine gelince (telefonda ekranın ortasından geçerken) gerçek renklerine döner.
+- **Köşe:** sağ alttaki katlanmış köşe her zaman diğer yüzün rengini gösterir ve oraya götürür.
+  Ön yüzün sonunda sayfa, kaydırdıkça o köşeden 45 derece açıyla çevrilir. Bunu desteklemeyen
+  tarayıcılarda ve "hareketi azalt" ayarında kırmızı yüz sadece eğik bir kenarla başlar.
+- **Renkler:** kâğıt beyazı `#f6f6f3`, mürekkep siyahı `#0c0c0b` ve tek renk olarak İsviçre bayrak
+  kırmızısı `#da291c` (Pantone 485 C). Kırmızı zeminde sadece beyaz yazı erişilebilirlik testini
+  geçtiği için arka yüzdeki bütün yazılar beyaz.
 
 ## Komutlar
 
@@ -17,18 +29,34 @@ Tasarım kararları: `docs/superpowers/specs/2026-11-11-personal-site-design.md`
 
 ## İçeriği güncellemek
 
-Sitedeki bütün metin tek bir dosyada: **`src/data/profile.ts`**. Yeni bir deneyim,
-okul ya da link eklemek için sadece bu dosyayı değiştir, sonra `npm run check` çalıştır.
+Sitedeki bütün metin tek bir dosyada: **`src/data/profile.ts`**. Değiştirdikten sonra
+`npm run check` çalıştır.
+
+- **Cümleler:** `work` (ön yüz) ve `life` (arka yüz). İsimden sonraki satırlar; her satır en fazla
+  20 karakter, yoksa merdivene sığmaz.
+- **Deneyim, eğitim, linkler:** `experience`, `education`, `links`. `end: 'Present'` kırmızı "Now" olur.
+- **Hayat bölümleri:** `chapters`. Her bölüm bir fiil (en fazla 7 harf), tek cümlelik bir not ve
+  1 ile 3 arası fotoğraf. İlk fotoğraf en büyük yere oturur. Dört farklı yerleşim sırayla tekrar
+  eder, yani bölüm ekleyip çıkarabilirsin.
+
+**Fotoğraflar:** dosyayı `src/assets/photos/` klasörüne koy (JPG, PNG veya WebP; iPhone'un
+HEIC dosyalarını önce JPG olarak dışa aktar), sonra `chapters` içinde dosya adıyla kullan.
+Build sırasında fotoğraflar küçültülür ve konum (GPS) bilgisi silinir. Her fotoğrafa `alt`
+metni ve `caption` (yer, yıl) gerekir. Fotoğraflar yerleşimdeki kutuya göre kırpılır, o yüzden
+konu ortada olsun. `placeholder-*.jpg` dosyaları ve bölümlerdeki notlar geçici; gerçekleri
+gelince silinecek.
 
 ## Yapı
 
-- `src/data/profile.ts`: isim, başlık, deneyim, eğitim, linkler.
-- `src/components/`: `Nav`, `Hero`, `RowSection` (deneyim/eğitim/iletişim satırları), `Footer`.
-- `src/styles/global.css`: renkler, fontlar, grid. Görünümün tek kaynağı.
+- `src/data/profile.ts`: bütün içerik.
+- `src/pages/index.astro`: iki yüzün sırası (ön yüz, sayfa çevirme, arka yüz).
+- `src/components/`: `Masthead` (üst satır), `Stair` (merdiven cümle), `Record` (deneyim ve
+  eğitim tablosu), `Corner` (katlanmış köşe), `Chapter` (hayat bölümü), `Arrow` (ok).
+- `src/styles/global.css`: renkler, font, yerleşim ve hareket. Görünümün tek kaynağı.
 - `src/layouts/Layout.astro`: ortak `<head>`, SEO ve link önizleme etiketleri.
-- `src/lib/url.ts`: linklere `/me` ön ekini ekleyen yardımcı.
+- `src/lib/url.ts`: linklere `/me` ön ekini ekleyen yardımcı. `src/lib/photos.ts`: fotoğraf bulucu.
 - `scripts/fetch-fonts.mjs`: Switzer'ı build öncesi Fontshare'den indirir.
-- `scripts/og.html`: `public/og.png` önizleme görselinin kaynağı (yeniden üretme notu içinde).
+- `scripts/og.html`: `public/og.png` önizleme görselinin kaynağı (yeniden üretme komutu içinde).
 - `tests/`: `npm run check` ile çalışan testler.
 - `.github/workflows/deploy.yml`: `main`'e her push'ta yayınlar.
 
@@ -43,3 +71,4 @@ okul ya da link eklemek için sadece bu dosyayı değiştir, sonra `npm run chec
 ## Yapılacaklar
 
 - [ ] TrustRFQ başlangıç tarihi → `src/data/profile.ts` içindeki `TODO(aras)`
+- [ ] Gerçek fotoğraflar, bölüm notları ve altyazılar → `chapters` üstündeki `TODO(aras)`

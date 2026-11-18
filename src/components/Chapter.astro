@@ -1,0 +1,68 @@
+---
+/**
+ * One chapter of the back side: a verb, a line of text and up to three photos.
+ * Four layouts (a to d) repeat in order so no two neighbours look alike.
+ * Photos print in black on the red sheet and show their real colors on
+ * hover (or, on touch screens, while they cross the middle of the screen).
+ */
+import { Image } from 'astro:assets';
+import type { Chapter } from '../data/profile';
+import { photo } from '../lib/photos';
+
+interface Props {
+  chapter: Chapter;
+  index: number;
+}
+
+const { chapter, index } = Astro.props;
+
+const big = '(min-width: 900px) 66vw, 100vw';
+const mid = '(min-width: 900px) 42vw, 100vw';
+const small = '(min-width: 900px) 30vw, 64vw';
+
+/** Shape and rendered size of each photo slot, per layout. */
+const layouts = {
+  a: [
+    { ratio: '3 / 2', sizes: big },
+    { ratio: '4 / 5', sizes: small },
+    { ratio: '1 / 1', sizes: small },
+  ],
+  b: [
+    { ratio: '4 / 5', sizes: mid },
+    { ratio: '3 / 2', sizes: mid },
+    { ratio: '1 / 1', sizes: small },
+  ],
+  c: [
+    { ratio: '16 / 9', sizes: big },
+    { ratio: '4 / 5', sizes: small },
+    { ratio: '1 / 1', sizes: small },
+  ],
+  d: [
+    { ratio: '4 / 5', sizes: small },
+    { ratio: '1 / 1', sizes: small },
+    { ratio: '4 / 5', sizes: small },
+  ],
+};
+const names = ['a', 'b', 'c', 'd'] as const;
+const name = names[index % names.length];
+const slots = layouts[name];
+
+if (chapter.shots.length < 1 || chapter.shots.length > 3) {
+  throw new Error(`Chapter "${chapter.verb}" needs 1 to 3 photos, it has ${chapter.shots.length}`);
+}
+---
+
+<section class:list={['chapter', `chapter-${name}`]} aria-labelledby={`chapter-${index}`}>
+  <h3 id={`chapter-${index}`} class="verb">{chapter.verb}</h3>
+  <p class="chapter-note">{chapter.note}</p>
+  {
+    chapter.shots.map((shot, i) => (
+      <figure class:list={['shot', `shot-${i + 1}`]}>
+        <div class="shot-frame" style={`aspect-ratio:${slots[i].ratio}`}>
+          <Image src={photo(shot.file)} alt={shot.alt} widths={[480, 800, 1200, 1800]} sizes={slots[i].sizes} />
+        </div>
+        <figcaption>{shot.caption}</figcaption>
+      </figure>
+    ))
+  }
+</section>

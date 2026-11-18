@@ -1,0 +1,40 @@
+---
+/** A status tag for the /draft page. See src/data/draft.ts for what each status means. */
+import { statusLabel, type Status } from '../data/draft';
+
+interface Props {
+  status: Status;
+}
+
+const { status } = Astro.props;
+---
+
+<span class={`tag tag-${status}`}>{statusLabel[status]}</span>
+
+<style>
+  .tag {
+    display: inline-block;
+    padding: 2px 7px;
+    border: 1px solid currentColor;
+    font:
+      600 10.5px/1.5 ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .tag-fact {
+    color: var(--color-muted);
+  }
+  .tag-proposal {
+    border-style: dashed;
+  }
+  .tag-needed {
+    border-color: var(--color-flag);
+    background: var(--color-flag);
+    color: var(--color-on-flag);
+  }
+</style>

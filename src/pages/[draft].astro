@@ -1,0 +1,14 @@
+---
+/**
+ * /draft: the homepage with Aras's working notes on it (status tags, Turkish
+ * remarks, rows still waiting on him). Built in dev only, so the notes never
+ * reach the live site.
+ */
+import Home from '../components/Home.astro';
+
+export function getStaticPaths() {
+  return import.meta.env.DEV ? [{ params: { draft: 'draft' } }] : [];
+}
+---
+
+<Home notes />

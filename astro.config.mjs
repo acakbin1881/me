@@ -15,5 +15,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [sitemap()],
+  // /draft is a working page with notes on it; keep it out of the sitemap.
+  integrations: [sitemap({ filter: (page) => !page.endsWith('/draft/') })],
 });

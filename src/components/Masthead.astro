@@ -1,0 +1,18 @@
+---
+import { url } from '../lib/url';
+import { profile } from '../data/profile';
+
+const home = url('/');
+const items = [
+  { label: 'Work', href: `${home}#work` },
+  { label: 'Life', href: `${home}#life` },
+  { label: 'Contact', href: `${home}#contact` },
+];
+---
+
+<header id="top" class="masthead wrap">
+  <a href={home} class="hl masthead-name">{profile.name}</a>
+  <nav aria-label="Sections" class="masthead-nav">
+    {items.map((item) => <a href={item.href} class="hl">{item.label}</a>)}
+  </nav>
+</header>

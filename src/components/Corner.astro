@@ -1,0 +1,27 @@
+---
+/**
+ * The folded corner. It stays in the bottom right of the screen for as long as
+ * its side of the sheet is in view, shows the color of the other side, and
+ * takes you there.
+ */
+import Arrow from './Arrow.astro';
+import { url } from '../lib/url';
+
+interface Props {
+  /** The side this corner turns to. */
+  to: 'life' | 'work';
+}
+
+const { to } = Astro.props;
+const home = url('/');
+const target = to === 'life' ? ({ href: `${home}#life`, label: 'Life', dir: 'se' } as const) : ({ href: `${home}#top`, label: 'Work', dir: 'nw' } as const);
+---
+
+<div class="corner-dock">
+  <a href={target.href} class:list={['corner', `corner-to-${to}`]}>
+    <span class="corner-label">
+      <span><span class="sr-only">Turn the page over: </span>{target.label}</span>
+      <Arrow dir={target.dir} />
+    </span>
+  </a>
+</div>

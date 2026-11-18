@@ -1,0 +1,66 @@
+---
+/**
+ * Experience and Education as one timetable: since, until, who, what.
+ * A role that is still running shows a red "Now".
+ */
+import { profile } from '../data/profile';
+import Arrow from './Arrow.astro';
+
+interface Row {
+  since?: string;
+  until: string;
+  who: string;
+  href?: string;
+  what: string;
+  extra?: string;
+}
+
+const groups: { id: string; title: string; rows: Row[] }[] = [
+  {
+    id: 'experience',
+    title: 'Experience',
+    rows: profile.experience.map((r) => ({ since: r.start, until: r.end, who: r.org, href: r.href, what: r.role, extra: r.line })),
+  },
+  {
+    id: 'education',
+    title: 'Education',
+    rows: profile.education.map((e) => ({ since: e.start, until: e.end, who: e.school, what: e.program })),
+  },
+];
+---
+
+<section id="work" class="record wrap" aria-label="Work">
+  {
+    groups.map((group) => (
+      <div class="record-group">
+        <h2 id={group.id} class="record-title">
+          {group.title}
+        </h2>
+        <ol class="record-rows" aria-labelledby={group.id}>
+          {group.rows.map((row) => (
+            <li class="row">
+              <p class="row-when">
+                <span class="row-since">{row.since}</span>
+                {row.since && <span class="row-to"> to </span>}
+                <span class="row-until">{row.until === 'Present' ? <span class="now">Now</span> : row.until}</span>
+              </p>
+              <p class="row-who">
+                {row.href ? (
+                  <a href={row.href} class="hl is-underlined">
+                    {row.who} <Arrow />
+                  </a>
+                ) : (
+                  row.who
+                )}
+              </p>
+              <p class="row-what">
+                {row.what}
+                {row.extra && <span class="row-extra">{row.extra}</span>}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))
+  }
+</section>
