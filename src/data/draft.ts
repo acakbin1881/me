@@ -30,12 +30,6 @@ interface Marked {
   note?: string;
 }
 
-export interface Receipt extends Marked {
-  date: string;
-  text: string;
-  href?: string;
-}
-
 export interface Project extends Marked {
   name: string;
   line: string;
@@ -130,7 +124,7 @@ export const draft = {
     lead: 'Zero slippage, by signature.',
     body: 'Market makers price a trade off-chain and sign every term of it; takers settle on-chain in one transaction, at exactly the signed price. Makers run their own quote servers and takers call them directly, so no operator sits in the middle. Next we connect it to routers and aggregators: a router contract has already settled a live quote as the taker on Testnet, which puts these prices one integration away from any swap screen on Stellar.',
     bodyStatus: 'proposal' as Status,
-    bodyNote: 'Tek cümle senin; yalnızca başına “The” ve “request-for-quote” için tire ekledim. Paragraf benim: zero slippage, market maker ve taker, aracı olmaması, router ve aggregator bağlantısı. Paragrafta geçen router işleminin linki Receipts bölümünde. “First” iddiasını doğrulayamadım; Stellar’da başka bir RFQ protokolü çıkarsa bu cümle karşına gelir.',
+    bodyNote: 'Tek cümle senin; yalnızca başına “The” ve “request-for-quote” için tire ekledim. Paragraf benim: zero slippage, market maker ve taker, aracı olmaması, router ve aggregator bağlantısı. “First” iddiasını doğrulayamadım; Stellar’da başka bir RFQ protokolü çıkarsa bu cümle karşına gelir.',
     built: 'Two smart contracts, an SDK, a reference maker and a trading desk.',
 
     standing: 'Live on Testnet. Not audited yet.',
@@ -150,7 +144,7 @@ export const draft = {
       { label: 'Website', href: 'https://trustrfq.vercel.app', primary: true },
       { label: 'GitHub', href: 'https://github.com/acakbin1881/TrustRFQ', primary: false },
     ],
-    note: 'Senin isteğinle çıkanlar: üç rakam kutusu ve “A settled trade” kartı. Adım adım akış ve kontrat ayrıntıları da bu bölümde yok; işlem linkleri Receipts bölümünde duruyor.',
+    note: 'Senin isteğinle çıkanlar: üç rakam kutusu ve “A settled trade” kartı. Adım adım akış ve kontrat ayrıntıları da bu bölümde yok.',
   },
 
   /** Second highlighted project, under TrustRFQ, with the same shape. */
@@ -174,52 +168,6 @@ export const draft = {
       href: 'https://www.linkedin.com/posts/aras-akbin-36b9842a7_ethoxford-hackathon-web3-activity-7426970748906442752-9nQ2',
     },
     note: 'Fotoğraf ve olgular LinkedIn gönderinden (10 Şubat 2026) ve CARP reposundan: iki kişilik takım, ETH Oxford, zincirler arası likidite parçalanması, Sui üzerinde dWallet, Hyperliquid’de işlem. Tek cümle ve paragraf benim. Derece yok (senden); bölüm derece iddiası taşımıyor. Repo adı “nexus”, GitHub butonu oraya gidiyor; canlı demo linki çalışıyor. Video linki senin isteğinle kaldırıldı.',
-  },
-
-  receipts: {
-    title: 'Receipts',
-    line: 'Dated and checkable. Nothing here asks to be taken on trust.',
-    items: [
-      {
-        date: 'Feb 2026',
-        text: 'Built CARP with Yutaka Shibata at ETH Oxford.',
-        href: 'https://www.linkedin.com/posts/aras-akbin-36b9842a7_ethoxford-hackathon-web3-activity-7426970748906442752-9nQ2',
-        status: 'fact',
-      },
-      { date: 'Jun 2026', text: 'Joined the Stellar Ambassador program.', status: 'fact' },
-      { date: '10 Jun 2026', text: 'First commit of TrustRFQ.', status: 'fact' },
-      {
-        date: '14 Sep 2026',
-        text: 'First full RFQ loop recorded on Testnet.',
-        status: 'fact',
-        note: 'Kanıt kaydının ilk yazıldığı tarih.',
-      },
-      {
-        date: '20 Sep 2026',
-        text: 'Settlement contract deployed in its current form. A live quote settles end to end: a tampered amount is rejected, the fill is exact, the replay is rejected.',
-        href: 'https://stellar.expert/explorer/testnet/tx/867ea6f4c9afed0605ac0a7c173155bb7986de87f04292e233343e0923519321',
-        status: 'fact',
-      },
-      {
-        date: '2 Oct 2026',
-        text: 'A router contract settles a TrustRFQ quote as the taker.',
-        href: 'https://stellar.expert/explorer/testnet/tx/115b695d64db28dcaf5715b814b73b8f83272fd58ff8328dcc779fa56029a098',
-        status: 'fact',
-      },
-      { date: '13 Nov 2026', text: 'Maker registry redeployed with the refund fix.', status: 'fact' },
-      {
-        date: 'Date?',
-        text: 'Stellar Community Fund Instaward for TrustRFQ: $15,000.',
-        status: 'needed',
-        note: 'Instawards, Stellar Ambassador chapter’ları üzerinden veriliyor; bu yüzden Haziran 2026’daki ambassador satırının hemen ardından gelmesi hikâyeyi kendiliğinden anlatıyor. Tarih (ay yeterli) ve varsa duyuru linki gerekli.',
-      },
-      {
-        date: 'Open',
-        text: 'Other awards, hackathon results, press.',
-        status: 'needed',
-        note: 'Referans sitedeki “Başarılar” bölümünün karşılığı. Varsa: ne, kim verdi, tarih, link.',
-      },
-    ] as Receipt[],
   },
 
   projects: {

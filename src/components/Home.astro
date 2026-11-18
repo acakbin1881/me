@@ -26,13 +26,10 @@ const sections = [
   { id: 'about', label: 'About' },
   { id: 'trustrfq', label: 'TrustRFQ' },
   { id: 'carp', label: 'CARP' },
-  { id: 'receipts', label: 'Receipts' },
   { id: 'built', label: 'Also built' },
   { id: 'record', label: 'Record' },
+  { id: 'contact', label: 'Contact' },
 ];
-
-/** Rows still waiting on Aras stay on the draft only. */
-const receipts = draft.receipts.items.filter((r) => notes || r.status !== 'needed');
 
 /** What a screen reader says after each box, since it cannot see the color. */
 const heard = { build: 'build with', learn: 'learning', life: 'built me' } as const;
@@ -272,26 +269,6 @@ const records = [
       {notes && <p class="note">{draft.carp.note}</p>}
     </section>
 
-    <section id="receipts" aria-labelledby="receipts-title">
-      <h2 id="receipts-title">{draft.receipts.title}</h2>
-      <p class="lede">{draft.receipts.line}</p>
-      <ol class="rows">
-        {
-          receipts.map((r) => (
-            <li>
-              <p class="when">{r.date}</p>
-              <div>
-                <p>
-                  {r.text} {r.href && <a href={r.href} target="_blank" rel="noopener">Transaction</a>} {notes && <DraftTag status={r.status} />}
-                </p>
-                {notes && r.note && <p class="note">{r.note}</p>}
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </section>
-
     <section id="built" aria-labelledby="built-title">
       <h2 id="built-title">{draft.projects.title}</h2>
       <ul class="projects">
@@ -350,6 +327,28 @@ const records = [
         ))
       }
       {notes && <p class="note">{draft.record.note}</p>}
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact</h2>
+      <ul class="rows">
+        <li>
+          <p class="when">Email</p>
+          <p><a href={`mailto:${profile.email}`}>{profile.email}</a></p>
+        </li>
+        {
+          profile.links.map((link) => (
+            <li>
+              <p class="when">{link.label}</p>
+              <p>
+                <a href={link.href} target="_blank" rel="me noopener">
+                  {link.href.replace(/^https:\/\/(www\.)?/, '').replace(/\/$/, '')}
+                </a>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
     </section>
   </div>
 </Layout>

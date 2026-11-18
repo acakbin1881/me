@@ -9,7 +9,7 @@ const html = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8'
 const text = (s: string) => s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
 // --- Structure ---
-const sections = ['about', 'trustrfq', 'carp', 'receipts', 'built', 'record'];
+const sections = ['about', 'trustrfq', 'carp', 'built', 'record', 'contact'];
 
 test('page is English', () => {
   assert.match(html, /<html lang="en"/);
@@ -32,7 +32,6 @@ test('the nav links to every section, and every section is there', () => {
 // --- Draft layer stays off the live page ---
 test('no draft notes, status tags or noindex on the live page', () => {
   for (const s of ['class="note"', 'class="tag', 'noindex', 'Taslak']) assert.ok(!html.includes(s), s);
-  for (const r of draft.receipts.items.filter((r) => r.status === 'needed')) assert.ok(!text(html).includes(r.text), r.text);
 });
 
 test('/draft is not built for the live site', () => {
@@ -79,8 +78,20 @@ test('profile links are present with rel="me"', () => {
   }
 });
 
-test('no email or placeholder markers', () => {
-  for (const s of ['mailto:', 'TODO']) assert.ok(!html.includes(s), JSON.stringify(s));
+test('Contact is the last section and offers email plus every profile link', () => {
+  const sectionIds = [...html.matchAll(/<section id="([^"]+)"/g)].map((m) => m[1]);
+  assert.equal(sectionIds.at(-1), 'contact');
+  const contact = html.match(/<section id="contact"[\s\S]*?<\/section>/)?.[0] ?? '';
+  assert.ok(contact.includes(`href="mailto:${profile.email}"`), 'mailto');
+  for (const l of profile.links) assert.ok(contact.includes(`href="${l.href}"`), l.href);
+});
+
+test('no placeholder markers', () => {
+  assert.ok(!html.includes('TODO'));
+});
+
+test('the Receipts section is gone', () => {
+  assert.ok(!html.includes('id="receipts"') && !html.includes('href="#receipts"'));
 });
 
 test('every root-relative URL stays under /me/', () => {

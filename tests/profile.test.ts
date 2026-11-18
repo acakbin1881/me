@@ -27,7 +27,8 @@ test('every education entry is complete', () => {
   }
 });
 
-test('contact links are public https profiles, never email', () => {
+test('contact has an email and public https profiles', () => {
+  assert.match(profile.email, /^[^@\s]+@[^@\s]+\.[a-z]+$/);
   assert.ok(profile.links.length > 0);
   for (const l of profile.links) {
     assert.ok(filled(l.label), JSON.stringify(l));

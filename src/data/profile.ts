@@ -62,6 +62,8 @@ export interface Profile {
   life: string[];
   experience: Role[];
   education: Study[];
+  /** Shown in Contact at the bottom of the page. */
+  email: string;
   links: Link[];
   chapters: Chapter[];
 }
@@ -102,9 +104,11 @@ export const profile: Profile = {
       end: '2026',
     },
   ],
+  email: 'ac.akbin1418@gmail.com',
   links: [
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aras-akbin-36b9842a7/' },
     { label: 'GitHub', href: 'https://github.com/acakbin1881' },
+    { label: 'X', href: 'https://x.com/acakbinxyz' },
   ],
   // TODO(aras): everything below is stand-in content. Replace the notes, captions
   // and placeholder-*.jpg files with your own. Add or remove chapters freely; the
