@@ -1,7 +1,7 @@
 # Kişisel site
 
-Astro + Tailwind v4, GitHub Pages'e GitHub Actions ile yayınlanır:
-**https://acakbin1881.github.io/me/**
+Astro + Tailwind v4, Vercel'de yayınlanır. GitHub reposu Vercel'e bağlı:
+`main`'e her push production'a, diğer branch'ler önizleme (preview) linkine çıkar.
 
 ## Tasarım fikri
 
@@ -22,7 +22,7 @@ Sayfa tek bir kâğıt yaprağı gibi kurulu, iki yüzü var:
 | Komut | Ne yapar |
 | --- | --- |
 | `npm install` | Bağımlılıkları kurar |
-| `npm run dev` | Yerel geliştirme sunucusu (`localhost:4321/me/`) |
+| `npm run dev` | Yerel geliştirme sunucusu (`localhost:4321`) |
 | `npm run build` | Switzer fontunu indirir (ilk seferde), `dist/` klasörüne statik site üretir |
 | `npm run check` | Build alır ve tüm testleri çalıştırır |
 | `npm run preview` | Build çıktısını yerelde gösterir |
@@ -54,16 +54,17 @@ gelince silinecek.
   eğitim tablosu), `Corner` (katlanmış köşe), `Chapter` (hayat bölümü), `Arrow` (ok).
 - `src/styles/global.css`: renkler, font, yerleşim ve hareket. Görünümün tek kaynağı.
 - `src/layouts/Layout.astro`: ortak `<head>`, SEO ve link önizleme etiketleri.
-- `src/lib/url.ts`: linklere `/me` ön ekini ekleyen yardımcı. `src/lib/photos.ts`: fotoğraf bulucu.
+- `src/lib/url.ts`: iç linkleri ve `public/` dosyalarını `base`'e göre yazan yardımcı. `src/lib/photos.ts`: fotoğraf bulucu.
 - `scripts/fetch-fonts.mjs`: Switzer'ı build öncesi Fontshare'den indirir.
 - `scripts/og.html`: `public/og.png` önizleme görselinin kaynağı (yeniden üretme komutu içinde).
 - `tests/`: `npm run check` ile çalışan testler.
-- `.github/workflows/deploy.yml`: `main`'e her push'ta yayınlar.
 
 ## Notlar
 
-- **`/me` alt yolu:** İç linkleri ve `public/` dosyalarını her zaman `url()` ile yaz:
-  `href={url('/')}`, `src={url('/foto.jpg')}`. Düz `href="/..."` linki kırar (testler yakalar).
+- **Linkler:** Site artık alan adının kökünde (`/me` alt yolu yok). Yine de iç linkleri ve
+  `public/` dosyalarını `url()` ile yaz: `href={url('/')}`, `src={url('/foto.jpg')}`.
+- **Alan adı:** `astro.config.mjs` içindeki `site`, Vercel'in build sırasında verdiği
+  `VERCEL_PROJECT_PRODUCTION_URL` değerinden gelir. Özel alan adı eklersen ayrıca bir şey yapmana gerek yok.
 - **Switzer fontu git'te yok.** Lisansı fontu kendi sitende kullanmana izin veriyor ama
   repo üzerinden dağıtmana izin vermiyor. Bu yüzden her build'de indiriliyor
   (`src/styles/fonts/*.woff2` gitignore'da).

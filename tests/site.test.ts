@@ -94,20 +94,20 @@ test('the Receipts section is gone', () => {
   assert.ok(!html.includes('id="receipts"') && !html.includes('href="#receipts"'));
 });
 
-test('every root-relative URL stays under /me/', () => {
+test('root-relative URLs sit at the domain root, not the old /me/ sub-path', () => {
   const urls = [...html.matchAll(/(?:href|src)="(\/[^"]*)"/g)].map((m) => m[1]);
   assert.ok(urls.length > 0);
-  for (const u of urls) assert.ok(u.startsWith('/me/'), u);
+  for (const u of urls) assert.ok(!u.startsWith('/me/') && !u.startsWith('//'), u);
 });
 
 test('photos are served as resized webp from the build', () => {
   const srcs = [...html.matchAll(/<img[^>]*src="([^"]+)"/g)].map((m) => m[1]);
   assert.ok(srcs.length > 0);
-  for (const s of srcs) assert.match(s, /^\/me\/_astro\/.+\.webp$/, s);
+  for (const s of srcs) assert.match(s, /^\/_astro\/.+\.webp$/, s);
 });
 
 // --- Stylesheet ---
-const cssHref = html.match(/<link rel="stylesheet" href="\/me\/(_astro\/[^"]+\.css)"/)?.[1];
+const cssHref = html.match(/<link rel="stylesheet" href="\/(_astro\/[^"]+\.css)"/)?.[1];
 const css = cssHref ? readFileSync(new URL(`../dist/${cssHref}`, import.meta.url), 'utf8') : '';
 const flat = css.replace(/\s+/g, '');
 
@@ -165,7 +165,7 @@ test('reduced-motion guard is in the CSS', () => {
 });
 
 test('the nav turns into a frosted floating bar on scroll', () => {
-  const sheets = [...html.matchAll(/<link rel="stylesheet" href="\/me\/(_astro\/[^"]+\.css)"/g)]
+  const sheets = [...html.matchAll(/<link rel="stylesheet" href="\/(_astro\/[^"]+\.css)"/g)]
     .map((m) => readFileSync(new URL(`../dist/${m[1]}`, import.meta.url), 'utf8'))
     .join('')
     .replace(/\s+/g, '');
@@ -181,5 +181,5 @@ test('og.png is a 1200x630 PNG and is referenced absolutely', () => {
   const png = readFileSync(file);
   assert.equal(png.readUInt32BE(16), 1200);
   assert.equal(png.readUInt32BE(20), 630);
-  assert.ok(html.includes('property="og:image" content="https://acakbin1881.github.io/me/og.png"'));
+  assert.match(html, /property="og:image" content="https?:\/\/[^"/]+\/og\.png"/);
 });

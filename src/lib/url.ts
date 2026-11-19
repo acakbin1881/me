@@ -1,5 +1,5 @@
 /**
- * Prefixes a site-relative path with the configured `base` ("/me").
+ * Prefixes a site-relative path with the configured `base` (currently "/", the domain root).
  * Use for every internal link and every file from /public:
  *   href={url('/')}  href={url('/projects')}  src={url('/photo.jpg')}
  * Page paths get a trailing slash (matches `trailingSlash: 'always'`);
