@@ -3,14 +3,20 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-// Hosted on Vercel at the domain root. Vercel sets VERCEL_PROJECT_PRODUCTION_URL
-// at build time (the production domain, custom domain included), so absolute
-// URLs (og:image, sitemap) follow whatever domain the project uses.
-// Internal links still go through url() in src/lib/url.ts.
+// The same build is published in two places:
+// - Vercel, at the domain root. Vercel sets VERCEL_PROJECT_PRODUCTION_URL at
+//   build time (custom domain included).
+// - GitHub Pages, via .github/workflows/deploy.yml. The workflow sets SITE and
+//   BASE_PATH from the Pages config: "/me" while the repo is called `me`,
+//   "/" if it is renamed to acakbin1881.github.io.
+// Internal links go through url() in src/lib/url.ts, so they follow `base`.
 const host = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+const site = process.env.SITE || (host ? `https://${host}` : 'http://localhost:4321');
+const base = process.env.BASE_PATH || '/';
 
 export default defineConfig({
-  site: host ? `https://${host}` : 'http://localhost:4321',
+  site,
+  base,
   trailingSlash: 'always',
   vite: {
     plugins: [tailwindcss()],

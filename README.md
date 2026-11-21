@@ -1,7 +1,12 @@
 # Kişisel site
 
-Astro + Tailwind v4, Vercel'de yayınlanır. GitHub reposu Vercel'e bağlı:
-`main`'e her push production'a, diğer branch'ler önizleme (preview) linkine çıkar.
+Astro + Tailwind v4, iki yerde yayınlanır:
+
+- **Vercel:** GitHub reposu Vercel'e bağlı. `main`'e her push production'a,
+  diğer branch'ler önizleme (preview) linkine çıkar.
+- **GitHub Pages:** `.github/workflows/deploy.yml`, `main`'e her push'ta yayınlar:
+  **https://acakbin1881.github.io/me/** (repo adı `acakbin1881.github.io` yapılırsa
+  adres kendiliğinden **https://acakbin1881.github.io/** olur).
 
 ## Tasarım fikri
 
@@ -58,13 +63,16 @@ gelince silinecek.
 - `scripts/fetch-fonts.mjs`: Switzer'ı build öncesi Fontshare'den indirir.
 - `scripts/og.html`: `public/og.png` önizleme görselinin kaynağı (yeniden üretme komutu içinde).
 - `tests/`: `npm run check` ile çalışan testler.
+- `.github/workflows/deploy.yml`: `main`'e her push'ta GitHub Pages'e yayınlar.
 
 ## Notlar
 
-- **Linkler:** Site artık alan adının kökünde (`/me` alt yolu yok). Yine de iç linkleri ve
-  `public/` dosyalarını `url()` ile yaz: `href={url('/')}`, `src={url('/foto.jpg')}`.
+- **Linkler:** Vercel'de site kökte, GitHub Pages'te `/me` alt yolunda. İç linkleri ve
+  `public/` dosyalarını her zaman `url()` ile yaz: `href={url('/')}`, `src={url('/foto.jpg')}`.
+  Düz `href="/..."` linki Pages'te kırar.
 - **Alan adı:** `astro.config.mjs` içindeki `site`, Vercel'in build sırasında verdiği
-  `VERCEL_PROJECT_PRODUCTION_URL` değerinden gelir. Özel alan adı eklersen ayrıca bir şey yapmana gerek yok.
+  `VERCEL_PROJECT_PRODUCTION_URL` değerinden gelir (Pages build'inde workflow `SITE` ve
+  `BASE_PATH` verir). Özel alan adı eklersen ayrıca bir şey yapmana gerek yok.
 - **Switzer fontu git'te yok.** Lisansı fontu kendi sitende kullanmana izin veriyor ama
   repo üzerinden dağıtmana izin vermiyor. Bu yüzden her build'de indiriliyor
   (`src/styles/fonts/*.woff2` gitignore'da).
