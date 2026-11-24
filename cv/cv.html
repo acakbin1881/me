@@ -1,0 +1,209 @@
+<!doctype html>
+<!--
+  Source for cv/Aras-Akbin-CV.pdf (US Letter, one page).
+  Regenerate from the repo root:  node cv/build.mjs
+  Facts come from src/data/profile.ts and src/data/draft.ts.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Aras Akbin – CV</title>
+<style>
+  @font-face {
+    font-family: "Switzer";
+    src: url("../src/styles/fonts/Switzer-Variable.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @page { size: Letter; margin: 0; }
+  :root {
+    --ink: #0c0c0b;
+    --mute: #5b5b57;
+    --rule: #d9d9d3;
+    --red: #da291c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.6in 0.65in 0.55in;
+    color: var(--ink);
+    font-family: "Switzer", "Inter", sans-serif;
+    font-size: 9.6pt;
+    line-height: 1.38;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "tnum" 1;
+    position: relative;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* The folded corner from the site, in miniature. */
+  .corner {
+    position: absolute; right: 0; bottom: 0;
+    width: 0.42in; height: 0.42in;
+    background: linear-gradient(135deg, transparent 50%, var(--red) 50%);
+  }
+
+  header { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 0 24px; }
+  h1 { font-size: 30pt; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
+  .role { font-size: 11.5pt; font-weight: 500; margin-top: 6px; }
+  .contact { text-align: right; font-size: 8.8pt; line-height: 1.5; color: var(--mute); }
+  .contact a { color: var(--ink); }
+
+  .summary {
+    margin-top: 18px; padding-top: 12px; border-top: 2px solid var(--ink);
+    font-size: 10.2pt; line-height: 1.42;
+  }
+  .summary span { display: block; max-width: 6.6in; }
+
+  section { display: grid; grid-template-columns: 1.15in 1fr; gap: 0 16px; margin-top: 15px; padding-top: 9px; border-top: 1px solid var(--rule); }
+  h2 { font-size: 8.4pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding-top: 2px; }
+  h2.red { color: var(--red); }
+
+  .item + .item { margin-top: 9px; }
+  .head { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: baseline; }
+  .title { font-weight: 700; }
+  .title .org { font-weight: 500; }
+  .when { font-size: 8.6pt; color: var(--mute); white-space: nowrap; }
+  .when.now { color: var(--red); font-weight: 600; }
+  .sub { color: var(--mute); font-size: 8.9pt; }
+  ul { list-style: none; margin-top: 3px; }
+  li { position: relative; padding-left: 11px; }
+  li + li { margin-top: 1.5px; }
+  li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 4px; height: 1px; background: var(--ink); }
+  .link { font-size: 8.6pt; color: var(--mute); }
+
+  .rows { display: grid; grid-template-columns: 0.95in 1fr; gap: 4px 12px; }
+  .rows dt { font-weight: 700; }
+</style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Aras Akbin</h1>
+      <div class="role">Founder, Ostrom · Stellar Ambassador</div>
+    </div>
+    <div class="contact">
+      San Francisco Bay Area<br />
+      <a href="mailto:ac.akbin1418@gmail.com">ac.akbin1418@gmail.com</a><br />
+      <a href="https://www.linkedin.com/in/aras-akbin-36b9842a7/">linkedin.com/in/aras-akbin-36b9842a7</a><br />
+      <a href="https://github.com/acakbin1881">github.com/acakbin1881</a> · <a href="https://x.com/acakbinxyz">x.com/acakbinxyz</a>
+    </div>
+  </header>
+
+  <p class="summary"><span>
+    Founder building financial infrastructure on Stellar. I design and ship smart-contract
+    protocols end to end, from the contracts and SDK to the trading interface. Self-taught
+    across physics, philosophy and history; starting university in the United States in 2027.
+  </span></p>
+
+  <section>
+    <h2>Experience</h2>
+    <div>
+      <div class="item">
+        <div class="head">
+          <div class="title">Founder <span class="org">· Ostrom</span></div>
+          <div class="when now">Jun 2026 – Now</div>
+        </div>
+        <div class="sub">Request-for-quote protocol on Stellar · <a href="https://ostromprotocol.com">ostromprotocol.com</a></div>
+        <ul>
+          <li>Market makers price trades off-chain and sign every term; takers settle on-chain in one transaction at exactly the signed price. Zero slippage, no operator in the middle.</li>
+          <li>Built two smart contracts, an SDK, a reference market maker and a trading desk. Live on Testnet.</li>
+          <li>A router contract has settled a live quote as the taker on Testnet, the first step toward routers and aggregators.</li>
+          <li>Funded by a $15K Stellar Community Fund Instaward.</li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="head">
+          <div class="title">Global Strategy &amp; Partnerships Advisor <span class="org">· Upvera</span></div>
+          <div class="when now">Jul 2026 – Now</div>
+        </div>
+        <div class="sub">Build-in-public platform for startup founders</div>
+      </div>
+      <div class="item">
+        <div class="head">
+          <div class="title">Ambassador <span class="org">· Stellar Development Foundation</span></div>
+          <div class="when now">Jun 2026 – Now</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="head">
+          <div class="title">Blockchain Developer, Freelance <span class="org">· ODTÜ Blockchain</span></div>
+          <div class="when">2025 – 2026</div>
+        </div>
+        <div class="sub">Blockchain and Web3</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    <div>
+      <div class="item">
+        <div class="head">
+          <div class="title">CARP <span class="org">· ETH Oxford hackathon</span></div>
+          <div class="when">Feb 2026</div>
+        </div>
+        <ul>
+          <li>Perpetual futures on any chain from one wallet: a dWallet on Sui signs on the other chain and Hyperliquid fills the trade, so no manual bridging.</li>
+          <li>Built in one weekend with Yutaka Shibata. Sui, Ika dWallets, Hyperliquid. <span class="link"><a href="https://carpf.vercel.app">carpf.vercel.app</a></span></li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="head">
+          <div class="title">TR Mock Anchor</div>
+          <div class="when">Aug – Sep 2026</div>
+        </div>
+        <ul>
+          <li>Mock Turkish lira to USDC on/off-ramp on Stellar Testnet implementing the standard SEP path (SEP-1, 6, 10, 12, 38); bank, KYC and payout legs simulated.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div>
+      <div class="item">
+        <div class="head">
+          <div class="title">University in the United States</div>
+          <div class="when">2027</div>
+        </div>
+        <div class="sub">Planned start; preparing for the SAT</div>
+      </div>
+      <div class="item">
+        <div class="head">
+          <div class="title">Data Science &amp; Artificial Intelligence <span class="org">· Europe Coding School</span></div>
+          <div class="when now">Now</div>
+        </div>
+        <div class="sub">15-week program: Python, machine learning, deep learning, computer vision, NLP, LLMs</div>
+      </div>
+      <div class="item">
+        <div class="head">
+          <div class="title">English Preparation <span class="org">· Middle East Technical University (ODTÜ)</span></div>
+          <div class="when">2025 – 2026</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <dl class="rows">
+      <dt>Build</dt><dd>Stellar, smart contracts, DeFi, Web3, blockchain</dd>
+      <dt>Learning</dt><dd>Python, Pandas, NumPy, scikit-learn, TensorFlow, machine learning, deep learning, computer vision, NLP, LLMs</dd>
+      <dt>Languages</dt><dd>Turkish (native), English</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2 class="red">Beyond work</h2>
+    <dl class="rows">
+      <dt>Sport</dt><dd>Fencing (4 years), table tennis (3 years), powerlifting</dd>
+      <dt>Other</dt><dd>Reading across physics, philosophy, politics, sociology and history; cooking, baking, tailoring; public speaking</dd>
+    </dl>
+  </section>
+
+  <div class="corner"></div>
+</body>
+</html>
