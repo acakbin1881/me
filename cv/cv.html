@@ -47,6 +47,13 @@
   header { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 0 24px; }
   h1 { font-size: 30pt; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
   .role { font-size: 11.5pt; font-weight: 500; margin-top: 6px; }
+  .portfolio {
+    display: inline-flex; align-items: baseline; gap: 8px;
+    margin-top: 12px; padding: 5px 10px 6px;
+    background: var(--red); color: #fff;
+    font-size: 11pt; font-weight: 700; letter-spacing: -0.005em;
+  }
+  .portfolio .label { font-size: 7.8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; opacity: 0.85; }
   .contact { text-align: right; font-size: 8.8pt; line-height: 1.5; color: var(--mute); }
   .contact a { color: var(--ink); }
 
@@ -82,6 +89,7 @@
     <div>
       <h1>Aras Akbin</h1>
       <div class="role">Founder, Ostrom · Stellar Ambassador</div>
+      <a class="portfolio" href="https://acakbin1881.github.io/me/"><span class="label">Portfolio</span> acakbin1881.github.io/me ↗</a>
     </div>
     <div class="contact">
       San Francisco Bay Area<br />
