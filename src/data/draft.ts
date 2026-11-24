@@ -141,7 +141,7 @@ export const draft = {
     grant: { value: '$15K', label: 'SCF Instaward', by: 'Stellar Community Fund Instawards' },
     grantNote: 'Hibe kutusu ve iki buton aynı yükseklikte, tek satırda. Programın resmi adı “SCF Instawards”; kutuda tekil hali “SCF Instaward” yazıyor. $15K, programın proje başına üst sınırı. Rakam senden. GitHub butonu github.com/acakbin1881/TrustRFQ adresine gidiyor; bu adres şu an dışarıdan 404 veriyor (repo gizli görünüyor). Repoyu açana kadar buton ziyaretçide boş sayfaya çıkar.',
     links: [
-      { label: 'Website', href: 'https://trustrfq.vercel.app', primary: true },
+      { label: 'Website', href: 'https://ostromprotocol.com', primary: true },
       { label: 'GitHub', href: 'https://github.com/acakbin1881/TrustRFQ', primary: false },
     ],
     note: 'Senin isteğinle çıkanlar: üç rakam kutusu ve “A settled trade” kartı. Adım adım akış ve kontrat ayrıntıları da bu bölümde yok.',
