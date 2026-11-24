@@ -10,6 +10,7 @@
 import Layout from '../layouts/Layout.astro';
 import DraftTag from '../components/DraftTag.astro';
 import Arrow from '../components/Arrow.astro';
+import OstromLogo from '../components/OstromLogo.astro';
 import { url } from '../lib/url';
 import { Image } from 'astro:assets';
 import { photo } from '../lib/photos';
@@ -89,12 +90,12 @@ const records = [
             {draft.hero.lines.map((line) => <>{' '}<span class="h1-line">{line}</span></>)}
           </h1>
           <p class="roles">{draft.hero.roles.join(' · ')}</p>
-          <ul class="links">
+          <ul class="buttons is-three hero-buttons">
             {
               profile.links.map((link) => (
                 <li>
-                  <a href={link.href} target="_blank" rel="me noopener">
-                    {link.label}
+                  <a href={link.href} target="_blank" rel="me noopener" class="button">
+                    {link.label} <Arrow />
                   </a>
                 </li>
               ))
@@ -167,7 +168,12 @@ const records = [
       <div class="feature">
         <div>
           <p class="kicker">{draft.flagship.kicker} {notes && <DraftTag status={draft.flagship.kickerStatus} />}</p>
-          <h2 id="ostrom-title">{draft.flagship.name}</h2>
+          <h2 id="ostrom-title" class="wordmark">
+            <a href={draft.flagship.site} target="_blank" rel="noopener">
+              <OstromLogo />
+              <span class="sr-only">{draft.flagship.name}</span>
+            </a>
+          </h2>
           <p class="lede">{draft.flagship.line}</p>
 
           <p class="prose">
@@ -533,6 +539,25 @@ const records = [
     line-height: 1.08;
     letter-spacing: -0.025em;
     text-wrap: balance;
+  }
+  /* The Ostrom wordmark stands in for the h2 text: about as tall as a capital. */
+  .wordmark a {
+    display: inline-block;
+    color: var(--color-ink);
+    transition: opacity 160ms ease-out;
+  }
+  .wordmark a:hover,
+  .wordmark a:focus-visible {
+    opacity: 0.75;
+  }
+  .wordmark :global(svg) {
+    display: block;
+    width: auto;
+    height: 1.05em;
+  }
+  .hero-buttons {
+    max-width: 460px;
+    margin-top: 28px;
   }
   h3 {
     font-size: 20px;

@@ -117,6 +117,8 @@ export const draft = {
     kickerNote: 'Bölüm adı için önerim “Now building”: tek projen olduğunu değil, şu an üzerinde çalıştığın ana iş olduğunu söylüyor. “Highlighted project” bir portfolyo şablonu gibi duruyor. Diğer seçenekler: “Main work”, “Flagship”, “Featured project”.',
 
     name: 'Ostrom',
+    /** Where the wordmark links. */
+    site: 'https://ostromprotocol.com',
 
     /** One line, in Aras's words. */
     line: 'The first request-for-quote protocol built on Stellar.',
