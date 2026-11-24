@@ -9,7 +9,7 @@ const html = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8'
 const text = (s: string) => s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
 // --- Structure ---
-const sections = ['about', 'trustrfq', 'carp', 'built', 'record', 'contact'];
+const sections = ['about', 'ostrom', 'carp', 'built', 'record', 'contact'];
 
 test('page is English', () => {
   assert.match(html, /<html lang="en"/);

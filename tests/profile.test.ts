@@ -16,8 +16,8 @@ test('every role has a title, an organization and an end date', () => {
   }
 });
 
-test('TrustRFQ is listed (the headline role belongs in Experience)', () => {
-  assert.ok(profile.experience.some((r) => r.org === 'TrustRFQ'));
+test('Ostrom is listed (the headline role belongs in Experience)', () => {
+  assert.ok(profile.experience.some((r) => r.org === 'Ostrom'));
 });
 
 test('every education entry is complete', () => {

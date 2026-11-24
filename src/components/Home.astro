@@ -24,7 +24,7 @@ const { notes = false } = Astro.props;
 
 const sections = [
   { id: 'about', label: 'About' },
-  { id: 'trustrfq', label: 'TrustRFQ' },
+  { id: 'ostrom', label: 'Ostrom' },
   { id: 'carp', label: 'CARP' },
   { id: 'built', label: 'Also built' },
   { id: 'record', label: 'Record' },
@@ -163,11 +163,11 @@ const records = [
       {notes && <p class="note">Başlık için diğer seçenekler: {draft.stack.titleAlternatives.map((t) => `“${t}”`).join(' · ')}</p>}
     </section>
 
-    <section id="trustrfq" aria-labelledby="trustrfq-title">
+    <section id="ostrom" aria-labelledby="ostrom-title">
       <div class="feature">
         <div>
           <p class="kicker">{draft.flagship.kicker} {notes && <DraftTag status={draft.flagship.kickerStatus} />}</p>
-          <h2 id="trustrfq-title">{draft.flagship.name}</h2>
+          <h2 id="ostrom-title">{draft.flagship.name}</h2>
           <p class="lede">{draft.flagship.line}</p>
 
           <p class="prose">
@@ -505,7 +505,7 @@ const records = [
     scroll-margin-top: 84px;
   }
 
-  /* The name is the largest thing on the page; the two lines under it step down. */
+  /* The name is the largest thing on the page; the line under it steps down. */
   h1 {
     margin-block: 0 28px;
     font-weight: 600;

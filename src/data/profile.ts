@@ -70,15 +70,15 @@ export interface Profile {
 
 export const profile: Profile = {
   name: 'Aras Akbin',
-  headline: 'Stellar Ambassador · Founder, TrustRFQ',
+  headline: 'Stellar Ambassador · Founder, Ostrom',
   location: 'San Francisco Bay Area',
   description:
-    'Aras Akbin, Stellar Ambassador and founder of TrustRFQ, based in the San Francisco Bay Area.',
-  work: ['builds TrustRFQ,', 'represents Stellar,', 'studies physics.'],
+    'Aras Akbin, Stellar Ambassador and founder of Ostrom, based in the San Francisco Bay Area.',
+  work: ['builds Ostrom,', 'represents Stellar,', 'studies physics.'],
   life: ['also trains,', 'cooks,', 'speaks on stage.'],
   experience: [
-    // TODO(aras): add the TrustRFQ start date (e.g. 'Mar 2026').
-    { role: 'Founder', org: 'TrustRFQ', end: 'Present' },
+    // TODO(aras): add the Ostrom start date (e.g. 'Mar 2026').
+    { role: 'Founder', org: 'Ostrom', end: 'Present' },
     {
       role: 'Global Strategy & Partnerships Advisor',
       org: 'Upvera',

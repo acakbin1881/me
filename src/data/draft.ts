@@ -44,14 +44,14 @@ export const draft = {
   hero: {
     status: 'fact' as Status,
     /** The lines under the name, in Aras's words. */
-    lines: ['Builds, reads, lifts', 'And never turns down a rematch'],
-    roles: ['Founder, TrustRFQ', 'Stellar Ambassador'],
+    lines: ['Builds, reads, lifts'],
+    roles: ['Founder, Ostrom', 'Stellar Ambassador'],
     photo: {
       file: 'hero-golden-gate.jpg',
       alt: 'Aras Akbin, eyes closed and arms crossed, sitting by the water in front of the Golden Gate Bridge.',
       caption: 'San Francisco.',
     },
-    note: 'Satırlar senden. İsim en büyük boyda, altındaki iki satır daha küçük; ekran daraldıkça hepsi birlikte küçülüyor. Satır sonuna nokta koymadım, senin yazdığın gibi bıraktım. “Signed, then settled.” satırı TrustRFQ’ya özgü olduğu için kaldırıldı. Fotoğraf senden; alt yazı yalnızca “San Francisco.”',
+    note: 'Satırlar senden. İsim en büyük boyda, altındaki satır daha küçük; ekran daraldıkça hepsi birlikte küçülüyor. Satır sonuna nokta koymadım, senin yazdığın gibi bıraktım. “Signed, then settled.” satırı Ostrom’a özgü olduğu için kaldırıldı. Fotoğraf senden; alt yazı yalnızca “San Francisco.”',
   },
 
   about: {
@@ -59,7 +59,7 @@ export const draft = {
     title: 'About',
     paragraphs: [
       'At 18 I walked out of Turkey’s top technical university and flew to San Francisco with $4,000. In that city, that is two months of rent and not much else.',
-      'So I made coffee for a living and built a company with the hours that were left. The coffee paid for the runway. The company is TrustRFQ.',
+      'So I made coffee for a living and built a company with the hours that were left. The coffee paid for the runway. The company is Ostrom.',
       'Before any of that I spent four years fencing, three at a table tennis table and one under a barbell. Three sports with nothing in common except a score. That is where I learned to go looking for the stronger opponent.',
       'The rest I got from books: physics, philosophy, politics, sociology, history. I read across subjects on purpose, because the answer to a problem in one field is usually sitting in another.',
       'These days I work from wherever I am, travelling alone and building as I go. In 2027 I start university in the United States. I never stopped learning. I just took school out of order.',
@@ -116,7 +116,7 @@ export const draft = {
     kickerStatus: 'proposal' as Status,
     kickerNote: 'Bölüm adı için önerim “Now building”: tek projen olduğunu değil, şu an üzerinde çalıştığın ana iş olduğunu söylüyor. “Highlighted project” bir portfolyo şablonu gibi duruyor. Diğer seçenekler: “Main work”, “Flagship”, “Featured project”.',
 
-    name: 'TrustRFQ',
+    name: 'Ostrom',
 
     /** One line, in Aras's words. */
     line: 'The first request-for-quote protocol built on Stellar.',
@@ -131,11 +131,11 @@ export const draft = {
 
     /** Screen recording of the desk, on the right of the section. Lives in public/media/. */
     demo: {
-      src: '/media/trustrfq-demo.mp4',
-      label: 'A 30-second screen recording of TrustRFQ: a quote for 620,000 XLM and the trading desk',
-      caption: 'TrustRFQ in 30 seconds, on Testnet.',
+      src: '/media/ostrom-demo.mp4',
+      label: 'A 30-second screen recording of Ostrom: a quote for 620,000 XLM and the trading desk',
+      caption: 'Ostrom in 30 seconds, on Testnet.',
       status: 'fact' as Status,
-      note: 'Video senden: 30 saniye, 1920×1080. Sessiz ve döngüde, ekrana girince kendiliğinden başlıyor, çıkınca duruyor; böylece aşağı inmeyen ziyaretçi 12,7 MB’ı hiç indirmiyor. “Hareketi azalt” ayarı açık olanlarda başlamıyor, kontrollerle kendileri oynatabiliyor. Videoda arayüzün yanında tanıtım sayfası da göründüğü için alt yazıyı “desk” yerine “TrustRFQ in 30 seconds” yaptım.',
+      note: 'Video senden: 30 saniye, 1920×1080. Sessiz ve döngüde, ekrana girince kendiliğinden başlıyor, çıkınca duruyor; böylece aşağı inmeyen ziyaretçi 12,7 MB’ı hiç indirmiyor. “Hareketi azalt” ayarı açık olanlarda başlamıyor, kontrollerle kendileri oynatabiliyor. Videoda arayüzün yanında tanıtım sayfası da göründüğü için alt yazıyı “desk” yerine “Ostrom in 30 seconds” yaptım.',
     },
     /** The funding line under the figures, with the two buttons beside it. */
     grant: { value: '$15K', label: 'SCF Instaward', by: 'Stellar Community Fund Instawards' },
@@ -147,7 +147,7 @@ export const draft = {
     note: 'Senin isteğinle çıkanlar: üç rakam kutusu ve “A settled trade” kartı. Adım adım akış ve kontrat ayrıntıları da bu bölümde yok.',
   },
 
-  /** Second highlighted project, under TrustRFQ, with the same shape. */
+  /** Second highlighted project, under Ostrom, with the same shape. */
   carp: {
     kicker: 'Built at ETH Oxford',
     name: 'CARP',
@@ -194,6 +194,6 @@ export const draft = {
     /** Under the 2027 row: the course Aras is taking now. */
     bootcamp: { when: 'Now', who: 'Europe Coding School', what: 'Data Science & Artificial Intelligence (15 weeks)', href: 'https://europecodingschool.com/egitimler/veri-bilimi-yapay-zeka-egitimi/' },
     nextStatus: 'proposal' as Status,
-    note: 'profile.ts’ten geliyor. TrustRFQ başlangıcı boş; ilk commit 10 Haziran 2026 olduğu için “Jun 2026” öneriyorum. De Anza satırı senin isteğinle hem taslaktan hem canlı siteden (profile.ts) çıktı. Bootcamp’i de “Now” olarak ikinci satıra ekledim; başlangıç ayını yazarsan “Sep 2026 to Now” gibi gösteririz. En üstte 2027 satırı var: SAT’e hazırlandığını ve 2027’de ABD’de üniversiteye başlayacağını söylüyor, About’taki 2027 cümlesiyle de örtüşüyor.',
+    note: 'profile.ts’ten geliyor. Ostrom başlangıcı boş; ilk commit 10 Haziran 2026 olduğu için “Jun 2026” öneriyorum. De Anza satırı senin isteğinle hem taslaktan hem canlı siteden (profile.ts) çıktı. Bootcamp’i de “Now” olarak ikinci satıra ekledim; başlangıç ayını yazarsan “Sep 2026 to Now” gibi gösteririz. En üstte 2027 satırı var: SAT’e hazırlandığını ve 2027’de ABD’de üniversiteye başlayacağını söylüyor, About’taki 2027 cümlesiyle de örtüşüyor.',
   },
 };

@@ -71,5 +71,5 @@ gelince silinecek.
 
 ## Yapılacaklar
 
-- [ ] TrustRFQ başlangıç tarihi → `src/data/profile.ts` içindeki `TODO(aras)`
+- [ ] Ostrom başlangıç tarihi → `src/data/profile.ts` içindeki `TODO(aras)`
 - [ ] Gerçek fotoğraflar, bölüm notları ve altyazılar → `chapters` üstündeki `TODO(aras)`
