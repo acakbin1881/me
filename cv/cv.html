@@ -26,7 +26,7 @@
   body {
     width: 8.5in;
     height: 11in;
-    padding: 0.6in 0.65in 0.55in;
+    padding: 0.55in 0.65in 0.5in;
     color: var(--ink);
     font-family: "Switzer", "Inter", sans-serif;
     font-size: 9.6pt;
@@ -58,16 +58,18 @@
   .contact a { color: var(--ink); }
 
   .summary {
-    margin-top: 18px; padding-top: 12px; border-top: 2px solid var(--ink);
+    margin-top: 14px; padding-top: 10px; border-top: 2px solid var(--ink);
     font-size: 10.2pt; line-height: 1.42;
   }
-  .summary span { display: block; max-width: 6.6in; }
+  .summary { display: grid; grid-template-columns: 1.15in 1fr; gap: 0 16px; font-size: 9.6pt; line-height: 1.38; }
+  .summary h2 { padding-top: 2px; }
+  .story p + p { margin-top: 4px; }
 
-  section { display: grid; grid-template-columns: 1.15in 1fr; gap: 0 16px; margin-top: 15px; padding-top: 9px; border-top: 1px solid var(--rule); }
+  section { display: grid; grid-template-columns: 1.15in 1fr; gap: 0 16px; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--rule); }
   h2 { font-size: 8.4pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding-top: 2px; }
   h2.red { color: var(--red); }
 
-  .item + .item { margin-top: 9px; }
+  .item + .item { margin-top: 7px; }
   .head { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: baseline; }
   .title { font-weight: 700; }
   .title .org { font-weight: 500; }
@@ -99,11 +101,14 @@
     </div>
   </header>
 
-  <p class="summary"><span>
-    Founder building financial infrastructure on Stellar. I design and ship smart-contract
-    protocols end to end, from the contracts and SDK to the trading interface. Self-taught
-    across physics, philosophy and history; starting university in the United States in 2027.
-  </span></p>
+  <div class="summary">
+    <h2 class="red">About</h2>
+    <div class="story">
+      <p>At 18 I walked out of Turkey’s top technical university and flew to San Francisco with $4,000, about two months of rent in that city. So I made coffee for a living and built a company with the hours that were left. The coffee paid for the runway. The company is Ostrom.</p>
+      <p>Before that I spent four years fencing, three at a table tennis table and one under a barbell. Three sports with nothing in common except a score; that is where I learned to go looking for the stronger opponent. The rest came from books: physics, philosophy, politics, sociology and history, read across fields on purpose, because the answer to a problem in one is usually sitting in another.</p>
+      <p>In 2027 I start university in the United States. I never stopped learning. I just took school out of order.</p>
+    </div>
+  </div>
 
   <section>
     <h2>Experience</h2>
@@ -116,8 +121,7 @@
         <div class="sub">Request-for-quote protocol on Stellar · <a href="https://ostromprotocol.com">ostromprotocol.com</a></div>
         <ul>
           <li>Market makers price trades off-chain and sign every term; takers settle on-chain in one transaction at exactly the signed price. Zero slippage, no operator in the middle.</li>
-          <li>Built two smart contracts, an SDK, a reference market maker and a trading desk. Live on Testnet.</li>
-          <li>A router contract has settled a live quote as the taker on Testnet, the first step toward routers and aggregators.</li>
+          <li>Built two smart contracts, an SDK, a reference market maker and a trading desk. Live on Testnet, where a router contract has already settled a live quote as the taker.</li>
           <li>Funded by a $15K Stellar Community Fund Instaward.</li>
         </ul>
       </div>
@@ -201,14 +205,7 @@
       <dt>Build</dt><dd>Stellar, smart contracts, DeFi, Web3, blockchain</dd>
       <dt>Learning</dt><dd>Python, Pandas, NumPy, scikit-learn, TensorFlow, machine learning, deep learning, computer vision, NLP, LLMs</dd>
       <dt>Languages</dt><dd>Turkish (native), English</dd>
-    </dl>
-  </section>
-
-  <section>
-    <h2 class="red">Beyond work</h2>
-    <dl class="rows">
-      <dt>Sport</dt><dd>Fencing (4 years), table tennis (3 years), powerlifting</dd>
-      <dt>Other</dt><dd>Reading across physics, philosophy, politics, sociology and history; cooking, baking, tailoring; public speaking</dd>
+      <dt>Also</dt><dd>Public speaking, cooking, baking, tailoring</dd>
     </dl>
   </section>
 
