@@ -49,9 +49,9 @@ export const draft = {
     photo: {
       file: 'hero-golden-gate.jpg',
       alt: 'Aras Akbin, eyes closed and arms crossed, sitting by the water in front of the Golden Gate Bridge.',
-      caption: 'San Francisco.',
+      caption: 'Golden Gate.',
     },
-    note: 'Satırlar senden. İsim en büyük boyda, altındaki satır daha küçük; ekran daraldıkça hepsi birlikte küçülüyor. Satır sonuna nokta koymadım, senin yazdığın gibi bıraktım. “Signed, then settled.” satırı Ostrom’a özgü olduğu için kaldırıldı. Fotoğraf senden; alt yazı yalnızca “San Francisco.”',
+    note: 'Satırlar senden. İsim en büyük boyda, altındaki satır daha küçük; ekran daraldıkça hepsi birlikte küçülüyor. Satır sonuna nokta koymadım, senin yazdığın gibi bıraktım. “Signed, then settled.” satırı Ostrom’a özgü olduğu için kaldırıldı. Fotoğraf senden; alt yazı yalnızca “Golden Gate.”',
   },
 
   about: {
